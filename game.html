@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="application-name" content="1to100">
+	<meta name="apple-mobile-web-app-title" content="1to100">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+	<link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+	<title>1to100</title>
+	<script src="js/jquery.js"></script>
+	<script src="js/mapping.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet" type="text/css">
+	<link href="css/numbers_sets.css" rel="stylesheet" type="text/css">
+	<style>
+	html {
+		min-height: 100%;
+		background: #032f50;
+	}
+
+	body {
+		position: relative;
+		min-height: 100vh;
+		min-height: 100dvh;
+		margin: 0;
+		overflow-x: hidden;
+		background: #032f50;
+		color: #fff;
+		font-family: "Baloo 2", sans-serif;
+		font-weight: 700;
+	}
+
+	body::before {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		background: url("images/bg.png") center / cover no-repeat;
+		content: "";
+		pointer-events: none;
+	}
+
+	.game {
+		position: relative;
+		z-index: 1;
+		box-sizing: border-box;
+		min-height: 100vh;
+		min-height: 100dvh;
+		padding:
+			max(12px, env(safe-area-inset-top))
+			max(12px, env(safe-area-inset-right))
+			max(12px, env(safe-area-inset-bottom))
+			max(12px, env(safe-area-inset-left));
+		text-align: center;
+	}
+
+	#game_name {
+		margin-top: 0;
+		line-height: 0;
+		text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+	}
+
+	.game-logo {
+		display: block;
+		width: min(320px, 70vw);
+		height: auto;
+		margin: 0 auto;
+	}
+
+	body.is-playing .game-logo {
+		width: min(180px, 45vw);
+	}
+
+	.level-selector {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		margin: 0 auto 22px;
+		font-size: 20px;
+		font-weight: 800;
+	}
+
+	.level-selector select {
+		box-sizing: border-box;
+		width: 230px;
+		height: 75px;
+		padding: 0 70px 8px 28px;
+		border: 0;
+		border-radius: 0;
+		appearance: none;
+		-webkit-appearance: none;
+		background: transparent url("images/selector.png") center / 100% 100% no-repeat;
+		color: #000;
+		font: inherit;
+		font-size: 22px;
+		font-weight: 700;
+		text-align: center;
+		text-align-last: center;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+		cursor: pointer;
+	}
+
+	.level-selector select option {
+		background: #fff;
+		color: #000;
+	}
+
+	.level-selector select:focus {
+		filter: drop-shadow(0 0 6px rgba(126, 244, 255, 0.85));
+		outline: none;
+	}
+
+	.level-selector select:disabled {
+		cursor: wait;
+		opacity: 0.65;
+	}
+
+	p {
+		font-size: 24px;
+	}
+
+	#board_stage {
+		display: none;
+		position: relative;
+		margin: 0 auto;
+	}
+
+	#img_b {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		transform-origin: top center;
+		will-change: transform;
+	}
+
+	#img {
+		display: block;
+	}
+
+	#search {
+		display: none;
+		margin: 0;
+		text-shadow: 0 2px 3px rgba(0, 0, 0, 0.65);
+		font-weight: 800;
+	}
+
+	.search-label {
+		font-family: "Baloo 2", sans-serif;
+		font-weight: 800;
+	}
+
+	#next {
+		font-size: 1.44em;
+	}
+
+	#error {
+		display: none;
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+		padding-top: 200px;
+		background: #f00;
+		color: #fff;
+		font-size: 48px;
+		font-weight: 800;
+		text-align: center;
+	}
+
+	#error.is-visible {
+		display: block;
+	}
+
+	#result {
+		display: none;
+		color: #fff;
+		font-size: 24px;
+		font-weight: 800;
+		text-shadow: 0 2px 3px rgba(0, 0, 0, 0.65);
+	}
+
+	#config_error {
+		display: none;
+		color: #b00020;
+	}
+
+	.animate {
+		transition: all 0.1s;
+		-webkit-transition: all 0.1s;
+	}
+
+	.action-button {
+		float: left;
+		margin: 0 10px 10px 0;
+		padding: 5px 20px;
+		border-radius: 10px;
+		color: #fff;
+		font-size: 25px;
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.blue {
+		border-bottom: 5px solid #2980b9;
+		background-color: #3498db;
+		text-shadow: 0 -2px #2980b9;
+	}
+
+	.action-button:active {
+		border-bottom: 1px solid;
+		transform: translate(0, 5px);
+		-webkit-transform: translate(0, 5px);
+	}
+
+	.action-button.is-disabled {
+		pointer-events: none;
+		opacity: 0.55;
+	}
+
+	.game-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		float: none;
+		box-sizing: border-box;
+		width: 220px;
+		height: 76px;
+		margin: 0;
+		padding: 0 24px 9px;
+		border: 0;
+		border-radius: 0;
+		background: transparent url("images/button.png") center / 100% 100% no-repeat;
+		color: #000;
+		font-size: 36px;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+	}
+
+	.game-button:active {
+		border: 0;
+		filter: brightness(0.92);
+		transform: translateY(3px);
+	}
+
+	.button {
+		display: flex;
+		justify-content: center;
+		width: fit-content;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	#fullscreen_button {
+		display: grid;
+		place-items: center;
+		position: fixed;
+		top: max(10px, env(safe-area-inset-top));
+		right: max(10px, env(safe-area-inset-right));
+		z-index: 10;
+		width: 44px;
+		height: 44px;
+		padding: 8px;
+		border: 2px solid rgba(255, 255, 255, 0.9);
+		border-radius: 10px;
+		background: rgba(3, 47, 80, 0.72);
+		color: #fff;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	#fullscreen_button:active {
+		transform: scale(0.94);
+	}
+
+	#fullscreen_button svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 2.2;
+	}
+
+	.fullscreen-collapse-icon {
+		display: none;
+	}
+
+	#pace_timeline {
+		display: none;
+		position: relative;
+		left: 50%;
+		z-index: 9;
+		flex: 0 0 auto;
+		width: 100vw;
+		margin: 0 0 6px;
+		transform: translateX(-50%);
+		pointer-events: none;
+	}
+
+	body.is-playing #pace_timeline {
+		display: block;
+	}
+
+	.pace-track {
+		position: relative;
+		box-sizing: border-box;
+		height: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.85);
+		border-radius: 999px;
+		background: rgba(3, 47, 80, 0.72);
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.42);
+	}
+
+	#pace_fill {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		border-radius: inherit;
+		background: #35c759;
+		transition: width 0.12s linear;
+	}
+
+	.pace-marker,
+	#pace_position {
+		position: absolute;
+		top: 50%;
+		box-sizing: border-box;
+		border: 2px solid #fff;
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.pace-marker {
+		z-index: 2;
+		width: 10px;
+		height: 10px;
+	}
+
+	.pace-marker-66 {
+		left: 66%;
+		background: #f7d570;
+	}
+
+	.pace-marker-50 {
+		left: 50%;
+		background: #f59e0b;
+	}
+
+	.pace-marker-33 {
+		left: 33%;
+		background: #ef4444;
+	}
+
+	#pace_position {
+		z-index: 3;
+		left: 100%;
+		width: 14px;
+		height: 14px;
+		background: #35c759;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+		transition: left 0.12s linear;
+	}
+
+	@media (orientation: landscape) and (max-height: 500px) {
+		.game {
+			padding-top: max(10px, env(safe-area-inset-top));
+			padding-bottom: max(4px, env(safe-area-inset-bottom));
+		}
+
+		body.is-playing {
+			overflow: hidden;
+		}
+
+		body.is-playing .game {
+			display: flex;
+			position: fixed;
+			inset: 0;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+			width: 100vw;
+			height: 100vh;
+			height: 100dvh;
+			min-height: 0;
+			overflow: hidden;
+			padding:
+				max(10px, env(safe-area-inset-top))
+				max(4px, env(safe-area-inset-right))
+				max(4px, env(safe-area-inset-bottom))
+				max(4px, env(safe-area-inset-left));
+		}
+
+		#game_name {
+			margin-bottom: 8px;
+		}
+
+		.game-logo {
+			width: min(170px, 45vw);
+		}
+
+		body.is-playing #game_name {
+			display: none;
+		}
+
+		body.is-playing #search {
+			position: fixed;
+			top: max(8px, env(safe-area-inset-top));
+			left: max(10px, env(safe-area-inset-left));
+			z-index: 9;
+			margin: 0;
+			font-size: 18px;
+			line-height: 1.1;
+			pointer-events: none;
+		}
+
+		body.is-playing .search-label,
+		body.is-playing #next {
+			display: block;
+		}
+
+		body.is-playing #next {
+			color: #f7d570;
+			font-size: 2.4em;
+			line-height: 0.95;
+		}
+
+		body.is-playing #board_stage {
+			flex: 0 0 auto;
+			margin: 0;
+		}
+
+		body.is-playing #pace_timeline {
+			position: fixed;
+			top: max(10px, env(safe-area-inset-top));
+			left: 0;
+			width: 100vw;
+			margin: 0;
+			transform: none;
+		}
+
+		.level-selector {
+			margin-bottom: 10px;
+			font-size: 16px;
+		}
+
+		.level-selector select {
+			width: 190px;
+			height: 62px;
+			padding-right: 58px;
+			padding-bottom: 6px;
+			padding-left: 24px;
+			font-size: 20px;
+		}
+
+		#start h2 {
+			margin: 8px 0;
+			font-size: 18px;
+		}
+
+		.action-button {
+			font-size: 20px;
+		}
+
+		.game-button {
+			width: 190px;
+			height: 65px;
+			padding-bottom: 8px;
+			font-size: 31px;
+		}
+	}
+
+	@media (orientation: portrait) and (max-width: 600px) {
+		body.is-playing .game {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		body.is-playing #game_name {
+			margin-bottom: 8px;
+		}
+
+		body.is-playing .game-logo {
+			width: min(150px, 40vw);
+		}
+
+		body.is-playing #search {
+			margin: 0 0 8px;
+			font-size: 20px;
+			line-height: 1.2;
+		}
+
+		body.is-playing #next {
+			font-size: 1.25em;
+		}
+	}
+
+	body.is-game-fullscreen {
+		overflow: hidden;
+	}
+
+	body.is-game-fullscreen .game {
+		position: fixed;
+		inset: 0;
+		box-sizing: border-box;
+		width: 100vw;
+		height: 100vh;
+		height: 100dvh;
+		min-height: 0;
+		overflow-y: auto;
+		padding:
+			max(10px, env(safe-area-inset-top))
+			max(4px, env(safe-area-inset-right))
+			max(4px, env(safe-area-inset-bottom))
+			max(4px, env(safe-area-inset-left));
+	}
+
+	body.is-playing.is-game-fullscreen .game {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	body.is-playing.is-game-fullscreen #game_name {
+		display: none;
+	}
+
+	body.is-playing.is-game-fullscreen #search {
+		position: fixed;
+		top: max(8px, env(safe-area-inset-top));
+		left: max(10px, env(safe-area-inset-left));
+		z-index: 9;
+		margin: 0;
+		font-size: clamp(16px, 3vmin, 28px);
+		line-height: 1.1;
+		pointer-events: none;
+	}
+
+	body.is-playing.is-game-fullscreen .search-label,
+	body.is-playing.is-game-fullscreen #next {
+		display: block;
+	}
+
+	body.is-playing.is-game-fullscreen #next {
+		color: #f7d570;
+		font-size: 2.4em;
+		line-height: 0.95;
+	}
+
+	body.is-playing.is-game-fullscreen #board_stage {
+		flex: 0 0 auto;
+		margin: 0;
+	}
+
+	body.is-playing.is-game-fullscreen #pace_timeline {
+		position: fixed;
+		top: max(10px, env(safe-area-inset-top));
+		left: 0;
+		width: 100vw;
+		margin: 0;
+		transform: none;
+	}
+
+	body.is-game-fullscreen .fullscreen-expand-icon {
+		display: none;
+	}
+
+	body.is-game-fullscreen .fullscreen-collapse-icon {
+		display: block;
+	}
+	</style>
+</head>
+	<body>
+		<main class="game">
+			<h1 id="game_name">
+				<img class="game-logo" id="game_logo" src="images/name.png" alt="1 to 100">
+			</h1>
+
+		<div class="level-selector">
+			<select id="level_select" aria-label="Level" disabled>
+				<option>Loading…</option>
+			</select>
+		</div>
+
+		<section id="start">
+			<h2 id="game_instruction">Loading level…</h2>
+			<p class="button">
+				<a href="#" class="action-button shadow animate blue game-button is-disabled" id="button" aria-disabled="true">Loading…</a>
+			</p>
+			<p id="config_error"></p>
+		</section>
+
+		<button id="fullscreen_button" type="button" aria-label="Enter fullscreen" title="Enter fullscreen">
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<path class="fullscreen-expand-icon" d="M8 3H3v5 M16 3h5v5 M8 21H3v-5 M16 21h5v-5"></path>
+				<path class="fullscreen-collapse-icon" d="M8 8H3V3 M16 8h5V3 M8 16H3v5 M16 16h5v5"></path>
+			</svg>
+		</button>
+
+		<p id="search"><span class="search-label">Find number:</span> <span id="next"></span></p>
+
+		<div id="pace_timeline" role="progressbar" aria-label="Time pace" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+			<div class="pace-track">
+				<div id="pace_fill"></div>
+				<span class="pace-marker pace-marker-66"></span>
+				<span class="pace-marker pace-marker-50"></span>
+				<span class="pace-marker pace-marker-33"></span>
+				<span id="pace_position"></span>
+			</div>
+		</div>
+
+			<div id="board_stage">
+				<div id="img_b">
+					<img usemap="#numbers" id="img" alt="Game board">
+					<div id="error" role="alert"></div>
+				</div>
+			</div>
+
+		<div id="result"></div>
+	</main>
+
+	<map id="numbers" name="numbers"></map>
+
+	<script src="js/game-config.js"></script>
+	<script src="js/game.js"></script>
+</body>
+</html>

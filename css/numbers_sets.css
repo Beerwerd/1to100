@@ -1,0 +1,8 @@
+.number-field {
+	position: absolute;
+	z-index: 2;
+	text-align: center;
+	line-height: normal;
+	font-family: "Dosis", sans-serif;
+	pointer-events: none;
+}

@@ -1,0 +1,2741 @@
+{
+  "backgroundImage": "images/map2.png",
+  "numberFieldCount": 100,
+  "fields": [
+    {
+      "area": {
+        "coordinates": [
+          43,
+          5,
+          86,
+          4,
+          86,
+          84,
+          44,
+          84
+        ]
+      },
+      "label": {
+        "left": 37,
+        "top": 26,
+        "width": 55,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          3,
+          4,
+          41,
+          5,
+          42,
+          83,
+          2,
+          84
+        ]
+      },
+      "label": {
+        "left": 2,
+        "top": 26,
+        "width": 40,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          85,
+          85,
+          5,
+          85,
+          72,
+          163,
+          85,
+          164
+        ]
+      },
+      "label": {
+        "left": 41,
+        "top": 87,
+        "width": 40,
+        "transform": "scaleY(1.4)",
+        "font": {
+          "size": 28,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          3,
+          85,
+          71,
+          164,
+          3,
+          164
+        ]
+      },
+      "label": {
+        "left": 4,
+        "top": 120,
+        "width": 40,
+        "transform": "none",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 35
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          3,
+          201,
+          37,
+          201,
+          38,
+          241,
+          2,
+          269
+        ]
+      },
+      "label": {
+        "left": -1,
+        "top": 212,
+        "width": 40,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 22,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          38,
+          201,
+          68,
+          201,
+          67,
+          274,
+          39,
+          243
+        ]
+      },
+      "label": {
+        "left": 33,
+        "top": 211,
+        "width": 40,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 22,
+          "weight": "normal",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          0,
+          279,
+          4,
+          270,
+          38,
+          244,
+          68,
+          279
+        ]
+      },
+      "label": {
+        "left": 16,
+        "top": 251,
+        "width": 40,
+        "transform": "scaleX(1.2)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          15,
+          409,
+          33,
+          404,
+          33,
+          460,
+          15,
+          453,
+          4,
+          433
+        ]
+      },
+      "label": {
+        "left": 1,
+        "top": 416,
+        "width": 41,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 23,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 19
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          35,
+          405,
+          68,
+          405,
+          67,
+          462,
+          35,
+          460
+        ]
+      },
+      "label": {
+        "left": 26,
+        "top": 417,
+        "width": 50,
+        "transform": "scaleY(1.7)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          68,
+          460,
+          68,
+          302,
+          120,
+          339
+        ]
+      },
+      "label": {
+        "left": 62,
+        "top": 329,
+        "width": 50,
+        "transform": "scaleY(2.5)",
+        "font": {
+          "size": 26,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 34
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          132,
+          23,
+          149,
+          6,
+          212,
+          6,
+          225,
+          23,
+          213,
+          41,
+          145,
+          42
+        ]
+      },
+      "label": {
+        "left": 154,
+        "top": 8,
+        "width": 50,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          87,
+          6,
+          131,
+          5,
+          131,
+          60,
+          87,
+          60
+        ]
+      },
+      "label": {
+        "left": 94,
+        "top": 17,
+        "width": 30,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 26,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          132,
+          44,
+          224,
+          44,
+          224,
+          55,
+          210,
+          73,
+          194,
+          62,
+          172,
+          61,
+          151,
+          68
+        ]
+      },
+      "label": {
+        "left": 154,
+        "top": 39,
+        "width": 55,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 22,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          196,
+          64,
+          176,
+          63,
+          177,
+          155,
+          194,
+          152,
+          212,
+          143,
+          223,
+          123,
+          222,
+          89
+        ]
+      },
+      "label": {
+        "left": 179,
+        "top": 89,
+        "width": 37,
+        "transform": "scaleY(1.8)",
+        "font": {
+          "size": 29,
+          "weight": "normal",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          86,
+          63,
+          129,
+          62,
+          130,
+          163,
+          88,
+          163
+        ]
+      },
+      "label": {
+        "left": 86,
+        "top": 97,
+        "width": 45,
+        "transform": "scaleY(2.9)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          150,
+          69,
+          173,
+          62,
+          173,
+          155,
+          151,
+          149,
+          138,
+          135,
+          131,
+          116,
+          135,
+          90
+        ]
+      },
+      "label": {
+        "left": 133,
+        "top": 88,
+        "width": 45,
+        "transform": "scaleY(2)",
+        "font": {
+          "size": 30,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          224,
+          133,
+          225,
+          168,
+          216,
+          187,
+          196,
+          171,
+          204,
+          151
+        ]
+      },
+      "label": {
+        "left": 191,
+        "top": 152,
+        "width": 45,
+        "transform": "scaleY(1.2)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          132,
+          129,
+          151,
+          150,
+          154,
+          164,
+          134,
+          178,
+          132,
+          163
+        ]
+      },
+      "label": {
+        "left": 124,
+        "top": 144,
+        "width": 35,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 18,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          22,
+          169,
+          86,
+          169,
+          98,
+          182,
+          88,
+          197,
+          23,
+          197,
+          12,
+          184
+        ]
+      },
+      "label": {
+        "left": 40,
+        "top": 167,
+        "width": 30,
+        "transform": "scaleX(1.6)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          133,
+          179,
+          155,
+          166,
+          167,
+          177,
+          152,
+          200,
+          141,
+          192
+        ]
+      },
+      "label": {
+        "left": 136,
+        "top": 168,
+        "width": 30,
+        "transform": "rotate(40deg)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          108,
+          261,
+          103,
+          234,
+          118,
+          212,
+          143,
+          210,
+          163,
+          221,
+          169,
+          243,
+          158,
+          265,
+          135,
+          271
+        ]
+      },
+      "label": {
+        "left": 115,
+        "top": 218,
+        "width": 43,
+        "transform": "scaleY(1.2)",
+        "font": {
+          "size": 34,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          154,
+          202,
+          167,
+          178,
+          181,
+          180,
+          189,
+          206,
+          172,
+          209
+        ]
+      },
+      "label": {
+        "left": 157,
+        "top": 181,
+        "width": 30,
+        "transform": "none",
+        "font": {
+          "size": 21,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          154,
+          151,
+          179,
+          158,
+          202,
+          150,
+          196,
+          171,
+          181,
+          179,
+          168,
+          178,
+          156,
+          166
+        ]
+      },
+      "label": {
+        "left": 163,
+        "top": 151,
+        "width": 30,
+        "transform": "scaleX(1.3)",
+        "font": {
+          "size": 22,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          183,
+          180,
+          195,
+          172,
+          216,
+          191,
+          193,
+          209
+        ]
+      },
+      "label": {
+        "left": 185,
+        "top": 176,
+        "width": 25,
+        "transform": "rotate(-34deg)",
+        "font": {
+          "size": 22,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          69,
+          200,
+          107,
+          200,
+          116,
+          214,
+          104,
+          226,
+          101,
+          241,
+          107,
+          261,
+          121,
+          267,
+          101,
+          270,
+          82,
+          276,
+          68,
+          296
+        ]
+      },
+      "label": {
+        "left": 70,
+        "top": 223,
+        "width": 34,
+        "transform": "scaleY(2.8)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          169,
+          276,
+          169,
+          213,
+          195,
+          209,
+          213,
+          199,
+          223,
+          178,
+          225,
+          227,
+          258,
+          228,
+          257,
+          276
+        ]
+      },
+      "label": {
+        "left": 181,
+        "top": 228,
+        "width": 70,
+        "transform": "scaleX(1.3)",
+        "font": {
+          "size": 36,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          2,
+          319,
+          62,
+          318,
+          1,
+          401
+        ]
+      },
+      "label": {
+        "left": 6,
+        "top": 319,
+        "width": 37,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 29,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          3,
+          402,
+          65,
+          317,
+          66,
+          404
+        ]
+      },
+      "label": {
+        "left": 27,
+        "top": 365,
+        "width": 37,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 26,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          3,
+          280,
+          66,
+          281,
+          66,
+          317,
+          3,
+          317
+        ]
+      },
+      "label": {
+        "left": 22,
+        "top": 283,
+        "width": 25,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          120,
+          339,
+          69,
+          302,
+          170,
+          301
+        ]
+      },
+      "label": {
+        "left": 107,
+        "top": 298,
+        "width": 25,
+        "transform": "scaleX(1.5)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          67,
+          299,
+          83,
+          280,
+          104,
+          270,
+          131,
+          270,
+          155,
+          281,
+          170,
+          299
+        ]
+      },
+      "label": {
+        "left": 106,
+        "top": 271,
+        "width": 25,
+        "transform": "scaleX(1.9)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          121,
+          340,
+          169,
+          458,
+          70,
+          460
+        ]
+      },
+      "label": {
+        "left": 94,
+        "top": 395,
+        "width": 54,
+        "transform": "scaleY(1.9)",
+        "font": {
+          "size": 40,
+          "weight": "normal",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          122,
+          339,
+          170,
+          303,
+          171,
+          456
+        ]
+      },
+      "label": {
+        "left": 122,
+        "top": 325,
+        "width": 56,
+        "transform": "scaleY(2.5)",
+        "font": {
+          "size": 32,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 23
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          171,
+          460,
+          172,
+          402,
+          210,
+          403,
+          210,
+          460
+        ]
+      },
+      "label": {
+        "left": 163,
+        "top": 416,
+        "width": 56,
+        "transform": "scaleY(2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          217,
+          409,
+          236,
+          403,
+          253,
+          410,
+          260,
+          428,
+          253,
+          449,
+          239,
+          457,
+          220,
+          454,
+          210,
+          433
+        ]
+      },
+      "label": {
+        "left": 210,
+        "top": 415,
+        "width": 50,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          211,
+          402,
+          212,
+          362,
+          258,
+          362,
+          258,
+          402
+        ]
+      },
+      "label": {
+        "left": 213,
+        "top": 367,
+        "width": 45,
+        "transform": "scaleY(1.2)",
+        "font": {
+          "size": 22,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          172,
+          321,
+          211,
+          321,
+          210,
+          401,
+          173,
+          401
+        ]
+      },
+      "label": {
+        "left": 167,
+        "top": 345,
+        "width": 50,
+        "transform": "scaleY(2.3)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          257,
+          278,
+          257,
+          319,
+          171,
+          319,
+          171,
+          279
+        ]
+      },
+      "label": {
+        "left": 188,
+        "top": 283,
+        "width": 53,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          249,
+          171,
+          288,
+          172,
+          290,
+          216,
+          279,
+          216
+        ]
+      },
+      "label": {
+        "left": 262,
+        "top": 172,
+        "width": 25,
+        "transform": "scaleY(1.2)",
+        "font": {
+          "size": 21,
+          "weight": "normal",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          225,
+          4,
+          268,
+          4,
+          268,
+          51,
+          226,
+          51
+        ]
+      },
+      "label": {
+        "left": 228,
+        "top": 12,
+        "width": 38,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          290,
+          217,
+          290,
+          171,
+          318,
+          170,
+          317,
+          217
+        ]
+      },
+      "label": {
+        "left": 294,
+        "top": 178,
+        "width": 20,
+        "transform": "scaleY(1.7)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          226,
+          107,
+          267,
+          107,
+          268,
+          169,
+          226,
+          170
+        ]
+      },
+      "label": {
+        "left": 230,
+        "top": 123,
+        "width": 33,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 30,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          227,
+          53,
+          268,
+          53,
+          268,
+          105,
+          226,
+          106,
+          223,
+          87,
+          211,
+          74
+        ]
+      },
+      "label": {
+        "left": 226,
+        "top": 59,
+        "width": 40,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 30,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          269,
+          4,
+          329,
+          5,
+          327,
+          51,
+          270,
+          52
+        ]
+      },
+      "label": {
+        "left": 277,
+        "top": 9,
+        "width": 44,
+        "transform": "scaleX(1.2)",
+        "font": {
+          "size": 31,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          329,
+          4,
+          428,
+          4,
+          428,
+          31,
+          330,
+          31
+        ]
+      },
+      "label": {
+        "left": 344,
+        "top": 2,
+        "width": 70,
+        "transform": "scaleX(2.2)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          378,
+          33,
+          427,
+          33,
+          427,
+          91,
+          379,
+          92
+        ]
+      },
+      "label": {
+        "left": 378,
+        "top": 47,
+        "width": 50,
+        "transform": "scaleY(2.5)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          445,
+          33,
+          466,
+          34,
+          482,
+          52,
+          483,
+          68,
+          464,
+          85,
+          447,
+          84,
+          428,
+          65,
+          427,
+          52
+        ]
+      },
+      "label": {
+        "left": 435,
+        "top": 39,
+        "width": 40,
+        "transform": "scaleX(1.3)",
+        "font": {
+          "size": 30,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          376,
+          92,
+          427,
+          93,
+          427,
+          127,
+          386,
+          126,
+          386,
+          107
+        ]
+      },
+      "label": {
+        "left": 385,
+        "top": 93,
+        "width": 40,
+        "transform": "scaleX(1.2)",
+        "font": {
+          "size": 26,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          387,
+          127,
+          427,
+          128,
+          427,
+          170,
+          362,
+          171,
+          363,
+          163,
+          380,
+          145
+        ]
+      },
+      "label": {
+        "left": 380,
+        "top": 134,
+        "width": 40,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 26,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          376,
+          94,
+          384,
+          109,
+          367,
+          100,
+          353,
+          108,
+          350,
+          131,
+          362,
+          143,
+          381,
+          137,
+          367,
+          158,
+          341,
+          169,
+          320,
+          165,
+          320,
+          76,
+          339,
+          73,
+          363,
+          78
+        ]
+      },
+      "label": {
+        "left": 324,
+        "top": 104,
+        "width": 29,
+        "transform": "scaleY(4.1)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          369,
+          102,
+          385,
+          113,
+          381,
+          133,
+          368,
+          141,
+          354,
+          133,
+          355,
+          110
+        ]
+      },
+      "label": {
+        "left": 359,
+        "top": 108,
+        "width": 20,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          329,
+          33,
+          375,
+          33,
+          376,
+          90,
+          363,
+          77,
+          347,
+          71,
+          330,
+          71
+        ]
+      },
+      "label": {
+        "left": 334,
+        "top": 39,
+        "width": 40,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          318,
+          77,
+          318,
+          165,
+          293,
+          140,
+          288,
+          116,
+          298,
+          89
+        ]
+      },
+      "label": {
+        "left": 296,
+        "top": 104,
+        "width": 20,
+        "transform": "scaleY(3.3)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "white",
+          "firstCharacter": {
+            "size": 14
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          269,
+          53,
+          327,
+          52,
+          326,
+          70,
+          299,
+          86,
+          286,
+          114,
+          290,
+          140,
+          305,
+          158,
+          317,
+          168,
+          270,
+          169
+        ]
+      },
+      "label": {
+        "left": 266,
+        "top": 59,
+        "width": 40,
+        "transform": "scaleY(1.7)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          247,
+          172,
+          277,
+          214,
+          260,
+          225,
+          227,
+          225,
+          225,
+          172
+        ]
+      },
+      "label": {
+        "left": 216,
+        "top": 186,
+        "width": 60,
+        "transform": "scaleY(1.8)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          319,
+          166,
+          340,
+          170,
+          360,
+          164,
+          360,
+          216,
+          319,
+          216
+        ]
+      },
+      "label": {
+        "left": 320,
+        "top": 176,
+        "width": 40,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          360,
+          172,
+          427,
+          172,
+          428,
+          225,
+          415,
+          225,
+          404,
+          217,
+          361,
+          216
+        ]
+      },
+      "label": {
+        "left": 373,
+        "top": 180,
+        "width": 45,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          430,
+          5,
+          482,
+          5,
+          482,
+          32,
+          428,
+          33
+        ]
+      },
+      "label": {
+        "left": 442,
+        "top": 3,
+        "width": 27,
+        "transform": "scaleX(1.8)",
+        "font": {
+          "size": 22,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          418,
+          228,
+          442,
+          227,
+          475,
+          279,
+          418,
+          280
+        ]
+      },
+      "label": {
+        "left": 424,
+        "top": 240,
+        "width": 32,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 26,
+          "weight": "bold",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          363,
+          218,
+          404,
+          218,
+          417,
+          229,
+          416,
+          371,
+          363,
+          370,
+          363,
+          317,
+          390,
+          261
+        ]
+      },
+      "label": {
+        "left": 367,
+        "top": 304,
+        "width": 50,
+        "transform": "scaleY(4.3)",
+        "font": {
+          "size": 26,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          361,
+          220,
+          387,
+          261,
+          362,
+          313,
+          341,
+          265
+        ]
+      },
+      "label": {
+        "left": 345,
+        "top": 250,
+        "width": 35,
+        "transform": "scaleY(2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          320,
+          218,
+          360,
+          217,
+          339,
+          264
+        ]
+      },
+      "label": {
+        "left": 325,
+        "top": 216,
+        "width": 30,
+        "transform": "none",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          317,
+          218,
+          274,
+          217,
+          259,
+          231,
+          260,
+          373,
+          317,
+          370,
+          316,
+          316,
+          285,
+          268
+        ]
+      },
+      "label": {
+        "left": 264,
+        "top": 307,
+        "width": 50,
+        "transform": "scaleY(2.9)",
+        "font": {
+          "size": 30,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          317,
+          315,
+          287,
+          268,
+          319,
+          219,
+          338,
+          266
+        ]
+      },
+      "label": {
+        "left": 299,
+        "top": 252,
+        "width": 30,
+        "transform": "scaleY(2.1)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          257,
+          321,
+          212,
+          321,
+          213,
+          361,
+          257,
+          360
+        ]
+      },
+      "label": {
+        "left": 220,
+        "top": 325,
+        "width": 30,
+        "transform": "scaleX(1.2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          368,
+          404,
+          367,
+          373,
+          260,
+          373,
+          261,
+          404
+        ]
+      },
+      "label": {
+        "left": 299,
+        "top": 373,
+        "width": 30,
+        "transform": "scaleX(2.7)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          319,
+          315,
+          339,
+          267,
+          359,
+          313,
+          360,
+          370,
+          317,
+          370
+        ]
+      },
+      "label": {
+        "left": 314,
+        "top": 314,
+        "width": 50,
+        "transform": "scaleY(2.5)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          369,
+          373,
+          416,
+          373,
+          416,
+          458,
+          369,
+          458,
+          381,
+          447,
+          386,
+          430,
+          381,
+          416,
+          369,
+          407
+        ]
+      },
+      "label": {
+        "left": 382,
+        "top": 397,
+        "width": 30,
+        "transform": "scaleY(3.2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          260,
+          404,
+          364,
+          405,
+          379,
+          416,
+          385,
+          430,
+          379,
+          446,
+          367,
+          458,
+          260,
+          459
+        ]
+      },
+      "label": {
+        "left": 279,
+        "top": 407,
+        "width": 80,
+        "transform": "scaleX(1.5)",
+        "font": {
+          "size": 44,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          469,
+          384,
+          469,
+          281,
+          520,
+          280
+        ]
+      },
+      "label": {
+        "left": 472,
+        "top": 288,
+        "width": 33,
+        "transform": "scaleY(1.8)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          469,
+          391,
+          520,
+          459,
+          469,
+          458
+        ]
+      },
+      "label": {
+        "left": 475,
+        "top": 417,
+        "width": 23,
+        "transform": "scaleY(1.4)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "white",
+          "firstCharacter": {
+            "size": 30
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          522,
+          279,
+          522,
+          458,
+          469,
+          386
+        ]
+      },
+      "label": {
+        "left": 486,
+        "top": 345,
+        "width": 31,
+        "transform": "scaleY(3.5)",
+        "font": {
+          "size": 30,
+          "weight": "bold",
+          "color": "black",
+          "firstCharacter": {
+            "size": 20
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          466,
+          391,
+          467,
+          460,
+          418,
+          459,
+          417,
+          392
+        ]
+      },
+      "label": {
+        "left": 426,
+        "top": 410,
+        "width": 34,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          572,
+          384,
+          572,
+          457,
+          524,
+          458
+        ]
+      },
+      "label": {
+        "left": 538,
+        "top": 418,
+        "width": 40,
+        "transform": "scaleY(1.7)",
+        "font": {
+          "size": 26,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 18
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          467,
+          391,
+          418,
+          391,
+          417,
+          350,
+          468,
+          351
+        ]
+      },
+      "label": {
+        "left": 422,
+        "top": 355,
+        "width": 40,
+        "transform": "scaleX(1.6)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          523,
+          381,
+          571,
+          381,
+          523,
+          458
+        ]
+      },
+      "label": {
+        "left": 509,
+        "top": 383,
+        "width": 60,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          578,
+          345,
+          603,
+          336,
+          625,
+          349,
+          627,
+          395,
+          603,
+          409,
+          580,
+          401,
+          573,
+          373
+        ]
+      },
+      "label": {
+        "left": 571,
+        "top": 357,
+        "width": 60,
+        "transform": "scaleY(2.5)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          574,
+          410,
+          627,
+          411,
+          626,
+          457,
+          575,
+          460
+        ]
+      },
+      "label": {
+        "left": 570,
+        "top": 419,
+        "width": 60,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          524,
+          280,
+          572,
+          358,
+          572,
+          381,
+          525,
+          380
+        ]
+      },
+      "label": {
+        "left": 513,
+        "top": 324,
+        "width": 60,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 41
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          574,
+          335,
+          573,
+          280,
+          626,
+          280,
+          628,
+          336
+        ]
+      },
+      "label": {
+        "left": 560,
+        "top": 292,
+        "width": 80,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          418,
+          281,
+          466,
+          281,
+          467,
+          350,
+          418,
+          349
+        ]
+      },
+      "label": {
+        "left": 427,
+        "top": 300,
+        "width": 30,
+        "transform": "scaleY(1.5)",
+        "font": {
+          "size": 30,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          481,
+          265,
+          499,
+          252,
+          523,
+          246,
+          545,
+          251,
+          562,
+          263,
+          570,
+          278,
+          475,
+          278
+        ]
+      },
+      "label": {
+        "left": 493,
+        "top": 250,
+        "width": 60,
+        "transform": "scaleX(1.6)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          570,
+          280,
+          573,
+          359,
+          524,
+          280
+        ]
+      },
+      "label": {
+        "left": 533,
+        "top": 281,
+        "width": 40,
+        "transform": "scaleY(1.2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          583,
+          225,
+          627,
+          225,
+          627,
+          279,
+          584,
+          279
+        ]
+      },
+      "label": {
+        "left": 585,
+        "top": 236,
+        "width": 40,
+        "transform": "scaleY(1.4)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          571,
+          277,
+          562,
+          259,
+          542,
+          249,
+          542,
+          225,
+          581,
+          225,
+          581,
+          280
+        ]
+      },
+      "label": {
+        "left": 545,
+        "top": 230,
+        "width": 40,
+        "transform": "none",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "#000000"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          522,
+          223,
+          541,
+          218,
+          542,
+          248,
+          524,
+          245,
+          504,
+          249,
+          504,
+          218
+        ]
+      },
+      "label": {
+        "left": 503,
+        "top": 218,
+        "width": 40,
+        "transform": "none",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "#000000"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          429,
+          86,
+          481,
+          87,
+          482,
+          172,
+          429,
+          172
+        ]
+      },
+      "label": {
+        "left": 436,
+        "top": 103,
+        "width": 38,
+        "transform": "scaleY(2.1)",
+        "font": {
+          "size": 37,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          519,
+          96,
+          564,
+          96,
+          564,
+          164,
+          551,
+          165,
+          540,
+          154,
+          520,
+          150
+        ]
+      },
+      "label": {
+        "left": 523,
+        "top": 107,
+        "width": 40,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 29,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          430,
+          225,
+          502,
+          224,
+          502,
+          216,
+          489,
+          199,
+          487,
+          172,
+          429,
+          173
+        ]
+      },
+      "label": {
+        "left": 446,
+        "top": 184,
+        "width": 30,
+        "transform": "scaleX(1.7)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          497,
+          162,
+          519,
+          150,
+          518,
+          218,
+          501,
+          213,
+          490,
+          196,
+          489,
+          180
+        ]
+      },
+      "label": {
+        "left": 491,
+        "top": 163,
+        "width": 30,
+        "transform": "scaleY(1.6)",
+        "font": {
+          "size": 28,
+          "weight": "bold",
+          "color": "black",
+          "firstCharacter": {
+            "size": 20
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          522,
+          152,
+          544,
+          159,
+          555,
+          176,
+          554,
+          198,
+          545,
+          210,
+          522,
+          220
+        ]
+      },
+      "label": {
+        "left": 524,
+        "top": 164,
+        "width": 25,
+        "transform": "scaleY(1.4)",
+        "font": {
+          "size": 21,
+          "weight": "normal",
+          "color": "black",
+          "firstCharacter": {
+            "size": 29
+          }
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          542,
+          214,
+          553,
+          205,
+          559,
+          189,
+          553,
+          166,
+          627,
+          166,
+          627,
+          224,
+          543,
+          225
+        ]
+      },
+      "label": {
+        "left": 556,
+        "top": 171,
+        "width": 70,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 37,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          502,
+          226,
+          501,
+          250,
+          484,
+          260,
+          474,
+          274,
+          444,
+          226
+        ]
+      },
+      "label": {
+        "left": 463,
+        "top": 227,
+        "width": 30,
+        "transform": "scaleY(1.3)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          484,
+          86,
+          518,
+          87,
+          518,
+          149,
+          498,
+          158,
+          491,
+          171,
+          484,
+          171
+        ]
+      },
+      "label": {
+        "left": 480,
+        "top": 108,
+        "width": 40,
+        "transform": "scaleY(2.9)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "white"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          483,
+          4,
+          516,
+          5,
+          517,
+          32,
+          483,
+          32
+        ]
+      },
+      "label": {
+        "left": 480,
+        "top": 5,
+        "width": 40,
+        "transform": "scaleX(1.3)",
+        "font": {
+          "size": 20,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          626,
+          163,
+          567,
+          163,
+          566,
+          97,
+          627,
+          96
+        ]
+      },
+      "label": {
+        "left": 575,
+        "top": 102,
+        "width": 44,
+        "transform": "none",
+        "font": {
+          "size": 45,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          484,
+          33,
+          516,
+          33,
+          517,
+          85,
+          484,
+          84
+        ]
+      },
+      "label": {
+        "left": 480,
+        "top": 43,
+        "width": 40,
+        "transform": "scaleY(1.9)",
+        "font": {
+          "size": 24,
+          "weight": "normal",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          537,
+          49,
+          611,
+          49,
+          626,
+          62,
+          624,
+          82,
+          610,
+          91,
+          539,
+          92,
+          524,
+          82,
+          523,
+          63
+        ]
+      },
+      "label": {
+        "left": 554,
+        "top": 55,
+        "width": 40,
+        "transform": "scaleX(2.6)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          563,
+          4,
+          627,
+          5,
+          627,
+          45,
+          564,
+          45
+        ]
+      },
+      "label": {
+        "left": 575,
+        "top": 9,
+        "width": 40,
+        "transform": "scaleX(2)",
+        "font": {
+          "size": 24,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    },
+    {
+      "area": {
+        "coordinates": [
+          518,
+          5,
+          561,
+          4,
+          561,
+          46,
+          518,
+          45
+        ]
+      },
+      "label": {
+        "left": 520,
+        "top": 10,
+        "width": 40,
+        "transform": "scaleX(1.4)",
+        "font": {
+          "size": 22,
+          "weight": "bold",
+          "color": "black"
+        }
+      }
+    }
+  ]
+}

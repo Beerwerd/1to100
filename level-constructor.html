@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Level Constructor</title>
+	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css">
+	<style>
+	:root {
+		color-scheme: light;
+		font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		background: #f3f5f8;
+		color: #172033;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		min-width: 1225px;
+		min-height: 100vh;
+		background:
+			radial-gradient(circle at top left, rgba(52, 152, 219, 0.12), transparent 32rem),
+			#f3f5f8;
+	}
+
+	.page {
+		width: min(1320px, calc(100% - 40px));
+		margin: 0 auto;
+		padding: 56px 0 80px;
+	}
+
+	.page-header {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 24px;
+		margin-bottom: 28px;
+	}
+
+	.eyebrow {
+		margin: 0 0 8px;
+		color: #2980b9;
+		font-size: 13px;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: clamp(34px, 5vw, 56px);
+		letter-spacing: -0.04em;
+	}
+
+	.description {
+		max-width: 610px;
+		margin: 12px 0 0;
+		color: #647087;
+		font-size: 17px;
+		line-height: 1.6;
+	}
+
+	.level-count {
+		flex: 0 0 auto;
+		padding: 10px 14px;
+		border: 1px solid #dce2ea;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.75);
+		color: #526078;
+		font-size: 14px;
+		font-weight: 700;
+	}
+
+	.level-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+		gap: 22px;
+	}
+
+	.level-card {
+		overflow: hidden;
+		border: 1px solid #dce2ea;
+		border-radius: 20px;
+		background: #fff;
+		box-shadow: 0 16px 36px rgba(23, 32, 51, 0.08);
+		cursor: pointer;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+	}
+
+	.level-card:hover,
+	.level-card:focus-visible {
+		border-color: #77b9e5;
+		box-shadow: 0 20px 44px rgba(23, 32, 51, 0.13);
+		outline: none;
+		transform: translateY(-2px);
+	}
+
+	.level-card.is-selected {
+		border-color: #3498db;
+		box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.18), 0 20px 44px rgba(23, 32, 51, 0.13);
+	}
+
+	.level-preview {
+		min-height: 220px;
+		background-color: #e7e7dc;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+
+	.level-details {
+		padding: 22px;
+	}
+
+	.level-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+	}
+
+	.level-title {
+		margin: 0;
+		font-size: 23px;
+	}
+
+	.level-number-count {
+		flex: 0 0 auto;
+		padding: 7px 10px;
+		border-radius: 999px;
+		background: #eef6fc;
+		color: #2477ad;
+		font-size: 13px;
+		font-weight: 800;
+	}
+
+	.workspace {
+		margin-top: 36px;
+		padding-top: 34px;
+		border-top: 1px solid #d8e0e9;
+	}
+
+	.workspace-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 18px;
+	}
+
+	.workspace-title {
+		margin: 0;
+		font-size: 27px;
+		letter-spacing: -0.025em;
+	}
+
+	.workspace-size {
+		color: #68768d;
+		font-size: 13px;
+		font-weight: 700;
+	}
+
+	.workspace-layout {
+		display: grid;
+		grid-template-columns: auto minmax(220px, 1fr);
+		align-items: start;
+		gap: 20px;
+	}
+
+	.board-viewport {
+		overflow: hidden;
+		flex: 0 0 auto;
+		border: 1px solid #cbd3de;
+		border-radius: 14px;
+		background: #fff;
+		box-shadow: 0 18px 42px rgba(23, 32, 51, 0.12);
+	}
+
+	.level-board {
+		position: relative;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		transform-origin: top left;
+	}
+
+	.level-field-image,
+	.numbers-overlay,
+	.areas-overlay {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.numbers-overlay {
+		z-index: 1;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.numbers-overlay.is-visible {
+		opacity: 1;
+	}
+
+	.editor-number-label {
+		position: absolute;
+		text-align: center;
+		line-height: normal;
+		font-family: "Dosis", sans-serif;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.numbers-overlay.is-visible .editor-number-label {
+		pointer-events: auto;
+		cursor: pointer;
+	}
+
+	.editor-number-label.is-selected {
+		outline: 2px solid #005fc7;
+		outline-offset: 2px;
+		background: rgba(30, 113, 224, 0.16);
+	}
+
+	.areas-overlay {
+		z-index: 2;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.15s ease;
+	}
+
+	.areas-overlay.is-visible {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	.areas-overlay polygon {
+		fill: rgba(92, 103, 117, 0.38);
+		stroke: #596675;
+		stroke-width: 1.5;
+		cursor: pointer;
+	}
+
+	.areas-overlay polygon.has-collision {
+		fill: rgba(232, 25, 42, 0.52);
+		stroke: #d40018;
+		stroke-width: 2;
+	}
+
+	.areas-overlay polygon.is-selected {
+		fill: rgba(30, 113, 224, 0.58);
+		stroke: #005fc7;
+		stroke-width: 2;
+	}
+
+	.vertex-handles circle {
+		fill: #fff;
+		stroke: #005fc7;
+		stroke-width: 2;
+		cursor: grab;
+		touch-action: none;
+	}
+
+	.vertex-handles circle.is-dragging {
+		fill: #1e71e0;
+		cursor: grabbing;
+	}
+
+	.vertex-handles circle.is-active {
+		fill: #1e71e0;
+	}
+
+	.edge-add-control {
+		cursor: pointer;
+	}
+
+	.edge-add-control circle {
+		fill: #172033;
+		stroke: #fff;
+		stroke-width: 2;
+	}
+
+	.edge-add-control text {
+		fill: #fff;
+		font-size: 15px;
+		font-weight: 800;
+		text-anchor: middle;
+		dominant-baseline: central;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.actions-panel {
+		min-height: 180px;
+		padding: 2px 0 0;
+		background: transparent;
+	}
+
+	.actions-title {
+		margin: 0 0 14px;
+		font-size: 19px;
+	}
+
+	.action-buttons {
+		display: grid;
+		gap: 10px;
+	}
+
+	.areas-button,
+	.numbers-button,
+	.save-button {
+		width: 100%;
+		min-height: 44px;
+		border: 1px solid #d4dce7;
+		border-radius: 11px;
+		background: #f7f9fb;
+		color: #25324a;
+		font: inherit;
+		font-size: 14px;
+		font-weight: 800;
+		cursor: pointer;
+	}
+
+	.areas-button:hover,
+	.numbers-button:hover,
+	.save-button:hover {
+		border-color: #ef6d79;
+		background: #fff4f5;
+	}
+
+	.areas-button[aria-pressed="true"] {
+		border-color: #d40018;
+		background: #d40018;
+		color: #fff;
+	}
+
+	.numbers-button[aria-pressed="true"] {
+		border-color: #2477ad;
+		background: #2477ad;
+		color: #fff;
+	}
+
+	.numbers-control input {
+		width: 100%;
+		height: 44px;
+		padding: 0 12px;
+		border: 1px solid #aebaca;
+		border-radius: 11px;
+		background: #fff;
+		color: #172033;
+		font: inherit;
+		font-size: 16px;
+		font-weight: 700;
+	}
+
+	.numbers-control input:focus {
+		border-color: #2477ad;
+		box-shadow: 0 0 0 3px rgba(36, 119, 173, 0.16);
+		outline: none;
+	}
+
+	.number-config {
+		margin-top: 24px;
+		padding-top: 22px;
+		border-top: 1px solid #d8e0e9;
+	}
+
+	.number-config-title {
+		margin: 0 0 18px;
+		font-size: 18px;
+	}
+
+	.number-config-section {
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.number-config-section + .number-config-section {
+		margin-top: 20px;
+	}
+
+	.number-config-legend {
+		margin-bottom: 10px;
+		padding: 0;
+		color: #526078;
+		font-size: 12px;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.number-config-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px 10px;
+	}
+
+	.number-config-field {
+		display: grid;
+		gap: 6px;
+		color: #526078;
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	.number-config-field.is-wide {
+		grid-column: 1 / -1;
+	}
+
+	.number-config-field input:not([type="checkbox"]),
+	.number-config-field select {
+		width: 100%;
+		height: 38px;
+		padding: 0 10px;
+		border: 1px solid #b9c4d2;
+		border-radius: 9px;
+		background: #fff;
+		color: #172033;
+		font: inherit;
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	.number-config-field input:not([type="checkbox"]):focus,
+	.number-config-field select:focus {
+		border-color: #2477ad;
+		box-shadow: 0 0 0 3px rgba(36, 119, 173, 0.14);
+		outline: none;
+	}
+
+	.number-config-field input:disabled,
+	.number-config-field select:disabled {
+		background: #edf1f5;
+		color: #8a96a8;
+		cursor: not-allowed;
+	}
+
+	.transform-config-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		margin-top: 12px;
+	}
+
+	.first-character-toggle {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 12px;
+		color: #25324a;
+		font-size: 13px;
+		font-weight: 750;
+		cursor: pointer;
+	}
+
+	.first-character-toggle input {
+		width: 17px;
+		height: 17px;
+		margin: 0;
+		accent-color: #2477ad;
+	}
+
+	.save-button {
+		border-color: #2477ad;
+		background: #2477ad;
+		color: #fff;
+	}
+
+	.save-button:hover {
+		border-color: #185f90;
+		background: #185f90;
+	}
+
+	.save-button:disabled {
+		cursor: wait;
+		opacity: 0.65;
+	}
+
+	.status {
+		padding: 30px;
+		border: 1px dashed #c7d0dc;
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.7);
+		color: #647087;
+		text-align: center;
+	}
+
+	.status.is-error {
+		border-color: #efb6bc;
+		background: #fff3f4;
+		color: #a3202f;
+	}
+
+	@media (max-width: 680px) {
+		.page {
+			width: min(100% - 24px, 1320px);
+			padding-top: 32px;
+		}
+
+		.page-header {
+			align-items: start;
+			flex-direction: column;
+		}
+	}
+	</style>
+</head>
+<body>
+	<main class="page">
+		<header class="page-header">
+			<div>
+				<p class="eyebrow">Game tools</p>
+				<h1>Level Constructor</h1>
+			</div>
+			<div class="level-count" id="level_count">Loading levels…</div>
+		</header>
+
+		<section class="level-list" id="level_list" aria-live="polite">
+			<div class="status">Loading level configurations…</div>
+		</section>
+
+		<section class="workspace" id="workspace" hidden>
+			<header class="workspace-header">
+				<h2 class="workspace-title" id="workspace_title">Level</h2>
+				<div class="workspace-size" id="workspace_size"></div>
+			</header>
+
+			<div class="workspace-layout">
+				<div class="board-viewport" id="board_viewport">
+					<div class="level-board" id="level_board">
+						<img class="level-field-image" id="level_field_image" alt="">
+						<div class="numbers-overlay" id="numbers_overlay" aria-hidden="true"></div>
+						<svg class="areas-overlay" id="areas_overlay" aria-hidden="true"></svg>
+					</div>
+				</div>
+
+				<aside class="actions-panel">
+					<h3 class="actions-title">Actions</h3>
+					<div class="action-buttons">
+						<button class="areas-button" id="areas_button" type="button" aria-pressed="false">Areas</button>
+						<button class="numbers-button" id="numbers_button" type="button" aria-pressed="false">Numbers</button>
+						<div class="numbers-control" id="numbers_control" hidden>
+							<input id="numbers_input" type="number" value="00" aria-label="Number shown in every field">
+						</div>
+						<button class="save-button" id="save_button" type="button" hidden>Save</button>
+					</div>
+
+					<section class="number-config" id="number_config" hidden>
+						<h4 class="number-config-title" id="number_config_title">Number</h4>
+
+						<fieldset class="number-config-section">
+							<legend class="number-config-legend">Label</legend>
+							<div class="number-config-grid">
+								<label class="number-config-field">
+									Left
+									<input id="number_left" type="number" step="1">
+								</label>
+								<label class="number-config-field">
+									Top
+									<input id="number_top" type="number" step="1">
+								</label>
+								<label class="number-config-field">
+									Width
+									<input id="number_width" type="number" min="1" step="1">
+								</label>
+							</div>
+							<div class="number-config-grid transform-config-grid">
+								<label class="number-config-field">
+									Scale X
+									<input id="number_scale_x" type="number" step="0.1">
+								</label>
+								<label class="number-config-field">
+									Scale Y
+									<input id="number_scale_y" type="number" step="0.1">
+								</label>
+								<label class="number-config-field">
+									Rotate
+									<input id="number_rotate" type="number" step="1">
+								</label>
+							</div>
+						</fieldset>
+
+						<fieldset class="number-config-section">
+							<legend class="number-config-legend">Font</legend>
+							<div class="number-config-grid">
+								<label class="number-config-field">
+									Size
+									<input id="number_font_size" type="number" min="1" step="1">
+								</label>
+								<label class="number-config-field">
+									Weight
+									<select id="number_font_weight">
+										<option value="bold">Bold</option>
+										<option value="normal">Normal</option>
+									</select>
+								</label>
+								<label class="number-config-field is-wide">
+									Color
+									<select id="number_font_color">
+										<option value="black">Black</option>
+										<option value="white">White</option>
+									</select>
+								</label>
+							</div>
+						</fieldset>
+
+						<fieldset class="number-config-section">
+							<legend class="number-config-legend">First character</legend>
+							<label class="first-character-toggle">
+								<input id="first_character_enabled" type="checkbox">
+								Custom style
+							</label>
+							<div class="number-config-grid">
+								<label class="number-config-field">
+									Size
+									<input id="first_character_size" type="number" min="1" step="1">
+								</label>
+								<label class="number-config-field">
+									Weight
+									<select id="first_character_weight">
+										<option value="">Same as number</option>
+										<option value="bold">Bold</option>
+										<option value="normal">Normal</option>
+									</select>
+								</label>
+								<label class="number-config-field is-wide">
+									Color
+									<select id="first_character_color">
+										<option value="">Same as number</option>
+										<option value="black">Black</option>
+										<option value="white">White</option>
+									</select>
+								</label>
+							</div>
+						</fieldset>
+					</section>
+				</aside>
+			</div>
+		</section>
+	</main>
+
+	<script src="js/game-config.js"></script>
+	<script>
+	(function () {
+		"use strict";
+
+		var game = window.numberGameConfiguration;
+		var list = document.getElementById("level_list");
+		var count = document.getElementById("level_count");
+		var workspace = document.getElementById("workspace");
+		var workspaceTitle = document.getElementById("workspace_title");
+		var workspaceSize = document.getElementById("workspace_size");
+		var boardViewport = document.getElementById("board_viewport");
+		var board = document.getElementById("level_board");
+		var fieldImage = document.getElementById("level_field_image");
+		var numbersOverlay = document.getElementById("numbers_overlay");
+		var areasOverlay = document.getElementById("areas_overlay");
+		var areasButton = document.getElementById("areas_button");
+		var numbersButton = document.getElementById("numbers_button");
+		var numbersControl = document.getElementById("numbers_control");
+		var numbersInput = document.getElementById("numbers_input");
+		var numberConfig = document.getElementById("number_config");
+		var numberConfigTitle = document.getElementById(
+			"number_config_title"
+		);
+		var numberLeftInput = document.getElementById("number_left");
+		var numberTopInput = document.getElementById("number_top");
+		var numberWidthInput = document.getElementById("number_width");
+		var numberScaleXInput = document.getElementById(
+			"number_scale_x"
+		);
+		var numberScaleYInput = document.getElementById(
+			"number_scale_y"
+		);
+		var numberRotateInput = document.getElementById(
+			"number_rotate"
+		);
+		var numberFontSizeInput = document.getElementById(
+			"number_font_size"
+		);
+		var numberFontWeightInput = document.getElementById(
+			"number_font_weight"
+		);
+		var numberFontColorInput = document.getElementById(
+			"number_font_color"
+		);
+		var firstCharacterEnabledInput = document.getElementById(
+			"first_character_enabled"
+		);
+		var firstCharacterSizeInput = document.getElementById(
+			"first_character_size"
+		);
+		var firstCharacterWeightInput = document.getElementById(
+			"first_character_weight"
+		);
+		var firstCharacterColorInput = document.getElementById(
+			"first_character_color"
+		);
+		var saveButton = document.getElementById("save_button");
+		var activeLevel;
+		var selectedFieldIndex = null;
+		var selectedNumberIndex = null;
+		var draggedVertex;
+		var activeVertex;
+		var addPointCandidate;
+
+		areasButton.addEventListener("click", toggleAreas);
+		numbersButton.addEventListener("click", toggleNumbers);
+		numbersInput.addEventListener("input", updateNumberLabels);
+		numberConfig.addEventListener(
+			"input",
+			updateSelectedNumberConfiguration
+		);
+		saveButton.addEventListener("click", saveLevel);
+		areasOverlay.addEventListener("pointermove", updateAddPointControl);
+		areasOverlay.addEventListener("pointerleave", hideAddPointControl);
+		window.addEventListener("pointermove", moveVertex);
+		window.addEventListener("pointerup", stopDraggingVertex);
+		window.addEventListener("pointercancel", stopDraggingVertex);
+		window.addEventListener("keydown", handleVertexDelete);
+
+		fetch("levels/index.json", { cache: "no-store" })
+			.then(function (response) {
+				if (!response.ok) {
+					throw new Error("Could not load the level manifest.");
+				}
+				return response.json();
+			})
+			.then(function (manifest) {
+				if (!manifest || !Array.isArray(manifest.levels)) {
+					throw new Error("The level manifest is invalid.");
+				}
+
+				return Promise.all(
+					manifest.levels.map(function (file, index) {
+						return loadLevel(file, index);
+					})
+				);
+			})
+			.then(renderLevels)
+			.catch(showError);
+
+		function loadLevel(file, index) {
+			var path = "levels/" + file;
+
+			return fetch(path, { cache: "no-store" })
+				.then(function (response) {
+					if (!response.ok) {
+						throw new Error("Could not load " + path + ".");
+					}
+					return response.json();
+				})
+				.then(function (configuration) {
+					return {
+						index: index,
+						file: file,
+						path: path,
+						configuration: configuration
+					};
+				});
+		}
+
+		function renderLevels(levels) {
+			list.replaceChildren();
+			count.textContent =
+				levels.length + (levels.length === 1 ? " level" : " levels");
+
+			if (levels.length === 0) {
+				list.appendChild(createStatus("No levels found."));
+				return;
+			}
+
+			levels.forEach(function (level) {
+				list.appendChild(createLevelCard(level));
+			});
+		}
+
+		function createLevelCard(level) {
+			var configuration = level.configuration;
+			var card = document.createElement("article");
+			var preview = document.createElement("div");
+			var details = document.createElement("div");
+			var heading = document.createElement("div");
+			var title = document.createElement("h2");
+			var numberCount = document.createElement("span");
+
+			card.className = "level-card";
+			card.tabIndex = 0;
+			card.setAttribute("role", "button");
+			card.setAttribute(
+				"aria-label",
+				"Open level " + (level.index + 1)
+			);
+			preview.className = "level-preview";
+			details.className = "level-details";
+			heading.className = "level-heading";
+			title.className = "level-title";
+			numberCount.className = "level-number-count";
+
+			if (configuration.backgroundImage) {
+				preview.style.backgroundImage =
+					'url("' + configuration.backgroundImage + '")';
+			}
+
+			title.textContent = "Level " + (level.index + 1);
+			numberCount.textContent =
+				"Numbers: " + configuration.numberFieldCount;
+
+			heading.append(title, numberCount);
+			details.append(heading);
+			card.append(preview, details);
+			card.addEventListener("click", function () {
+				openLevel(level, card);
+			});
+			card.addEventListener("keydown", function (event) {
+				if (event.key === "Enter" || event.key === " ") {
+					event.preventDefault();
+					openLevel(level, card);
+				}
+			});
+
+			return card;
+		}
+
+		function openLevel(level, card) {
+			var configuration = level.configuration;
+			var renderedWidth = game.width * game.displayScale;
+			var renderedHeight = game.height * game.displayScale;
+
+			activeLevel = level;
+			selectedFieldIndex = null;
+			selectedNumberIndex = null;
+			draggedVertex = null;
+			activeVertex = null;
+			addPointCandidate = null;
+			numberConfig.hidden = true;
+			saveButton.hidden = true;
+			saveButton.disabled = false;
+			saveButton.textContent = "Save";
+
+			list.querySelectorAll(".level-card").forEach(function (levelCard) {
+				levelCard.classList.toggle("is-selected", levelCard === card);
+			});
+
+			workspaceTitle.textContent = "Level " + (level.index + 1);
+			workspaceSize.textContent =
+				renderedWidth + " × " + renderedHeight + " px";
+
+			boardViewport.style.width = renderedWidth + "px";
+			boardViewport.style.height = renderedHeight + "px";
+			board.style.width = game.width + "px";
+			board.style.height = game.height + "px";
+			board.style.transform = "scale(" + game.displayScale + ")";
+			board.style.backgroundImage =
+				'url("' + configuration.backgroundImage + '")';
+
+			fieldImage.src = game.fieldImage;
+			fieldImage.width = game.width;
+			fieldImage.height = game.height;
+
+			numbersInput.value = "00";
+			renderNumberLabels(configuration.fields);
+			renderAreas(configuration.fields);
+			setNumbersVisible(false);
+			setAreasVisible(false);
+			workspace.hidden = false;
+
+			window.requestAnimationFrame(function () {
+				workspace.scrollIntoView({
+					behavior: "smooth",
+					block: "start"
+				});
+			});
+		}
+
+		function renderNumberLabels(fields) {
+			numbersOverlay.replaceChildren();
+
+			fields.forEach(function (field, index) {
+				var label = document.createElement("span");
+
+				label.className = "editor-number-label";
+				label.setAttribute("data-field-index", index);
+				label.setAttribute("role", "button");
+				label.setAttribute(
+					"aria-label",
+					"Edit number " + (index + 1)
+				);
+				label.tabIndex = -1;
+				label.addEventListener("click", function (event) {
+					event.stopPropagation();
+					selectNumber(label);
+				});
+				label.addEventListener("keydown", function (event) {
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault();
+						selectNumber(label);
+					}
+				});
+				numbersOverlay.appendChild(label);
+				applyNumberLabelConfiguration(index, label);
+			});
+
+			updateNumberLabels();
+		}
+
+		function applyNumberLabelConfiguration(fieldIndex, label) {
+			var labelConfiguration =
+				activeLevel.configuration.fields[fieldIndex].label;
+			var font = labelConfiguration.font;
+
+			if (!label) {
+				label = numbersOverlay.querySelector(
+					'.editor-number-label[data-field-index="' +
+						fieldIndex +
+						'"]'
+				);
+			}
+
+			if (!label) {
+				return;
+			}
+
+			label.style.left = labelConfiguration.left + "px";
+			label.style.top = labelConfiguration.top + "px";
+			label.style.width = labelConfiguration.width + "px";
+			label.style.transform = labelConfiguration.transform;
+			label.style.fontSize = font.size + "px";
+			label.style.fontWeight = font.weight;
+			label.style.color = font.color;
+			setNumberLabelValue(label, font, numbersInput.value);
+		}
+
+		function updateNumberLabels() {
+			if (!activeLevel) {
+				return;
+			}
+
+			numbersOverlay
+				.querySelectorAll(".editor-number-label")
+				.forEach(function (label) {
+					var fieldIndex = Number(
+						label.getAttribute("data-field-index")
+					);
+					var font =
+						activeLevel.configuration.fields[fieldIndex].label
+							.font;
+					setNumberLabelValue(
+						label,
+						font,
+						numbersInput.value
+					);
+				});
+		}
+
+		function setNumberLabelValue(label, font, value) {
+			var text = String(value);
+			var firstCharacter = font.firstCharacter;
+			var first;
+
+			label.replaceChildren();
+
+			if (!firstCharacter || text.length === 0) {
+				label.textContent = text;
+				return;
+			}
+
+			first = document.createElement("span");
+			first.textContent = text.charAt(0);
+
+			if (Number.isFinite(firstCharacter.size)) {
+				first.style.fontSize = firstCharacter.size + "px";
+			}
+			if (firstCharacter.weight) {
+				first.style.fontWeight = firstCharacter.weight;
+			}
+			if (firstCharacter.color) {
+				first.style.color = firstCharacter.color;
+			}
+
+			label.append(
+				first,
+				document.createTextNode(text.slice(1))
+			);
+		}
+
+		function toggleNumbers() {
+			setNumbersVisible(
+				numbersButton.getAttribute("aria-pressed") !== "true"
+			);
+		}
+
+		function setNumbersVisible(isVisible) {
+			if (isVisible) {
+				setAreasVisible(false);
+			}
+
+			numbersButton.setAttribute("aria-pressed", String(isVisible));
+			numbersOverlay.classList.toggle("is-visible", isVisible);
+			numbersControl.hidden = !isVisible;
+			numbersOverlay
+				.querySelectorAll(".editor-number-label")
+				.forEach(function (label) {
+					label.tabIndex = isVisible ? 0 : -1;
+				});
+
+			if (isVisible) {
+				updateNumberLabels();
+				numbersInput.focus();
+				numbersInput.select();
+			} else {
+				clearSelectedNumber();
+			}
+		}
+
+		function selectNumber(label) {
+			selectedNumberIndex = Number(
+				label.getAttribute("data-field-index")
+			);
+
+			numbersOverlay
+				.querySelectorAll(".editor-number-label")
+				.forEach(function (numberLabel) {
+					numberLabel.classList.toggle(
+						"is-selected",
+						numberLabel === label
+					);
+				});
+
+			showNumberConfiguration(selectedNumberIndex);
+		}
+
+		function clearSelectedNumber() {
+			numbersOverlay
+				.querySelectorAll(".editor-number-label.is-selected")
+				.forEach(function (label) {
+					label.classList.remove("is-selected");
+				});
+			selectedNumberIndex = null;
+			numberConfig.hidden = true;
+		}
+
+		function showNumberConfiguration(fieldIndex) {
+			var labelConfiguration =
+				activeLevel.configuration.fields[fieldIndex].label;
+			var font = labelConfiguration.font;
+			var firstCharacter = font.firstCharacter;
+			var transform = parseTransformConfiguration(
+				labelConfiguration.transform
+			);
+
+			numberConfigTitle.textContent = "Number " + (fieldIndex + 1);
+			numberLeftInput.value = labelConfiguration.left;
+			numberTopInput.value = labelConfiguration.top;
+			numberWidthInput.value = labelConfiguration.width;
+			numberScaleXInput.value = transform.scaleX;
+			numberScaleYInput.value = transform.scaleY;
+			numberRotateInput.value = transform.rotate;
+			numberFontSizeInput.value = font.size;
+			numberFontWeightInput.value = font.weight;
+			numberFontColorInput.value = normalizeColorOption(font.color);
+
+			firstCharacterEnabledInput.checked = Boolean(firstCharacter);
+			firstCharacterSizeInput.value =
+				firstCharacter && Number.isFinite(firstCharacter.size)
+					? firstCharacter.size
+					: "";
+			firstCharacterWeightInput.value =
+				(firstCharacter && firstCharacter.weight) || "";
+			firstCharacterColorInput.value =
+				firstCharacter && firstCharacter.color
+					? normalizeColorOption(firstCharacter.color)
+					: "";
+			setFirstCharacterControlsEnabled(Boolean(firstCharacter));
+			numberConfig.hidden = false;
+		}
+
+		function setFirstCharacterControlsEnabled(isEnabled) {
+			firstCharacterSizeInput.disabled = !isEnabled;
+			firstCharacterWeightInput.disabled = !isEnabled;
+			firstCharacterColorInput.disabled = !isEnabled;
+		}
+
+		function updateSelectedNumberConfiguration() {
+			var labelConfiguration;
+			var font;
+			var firstCharacter;
+
+			if (selectedNumberIndex === null || !activeLevel) {
+				return;
+			}
+
+			labelConfiguration =
+				activeLevel.configuration.fields[selectedNumberIndex].label;
+			font = labelConfiguration.font;
+
+			setFiniteConfigurationValue(
+				labelConfiguration,
+				"left",
+				numberLeftInput
+			);
+			setFiniteConfigurationValue(
+				labelConfiguration,
+				"top",
+				numberTopInput
+			);
+			setFiniteConfigurationValue(
+				labelConfiguration,
+				"width",
+				numberWidthInput
+			);
+			labelConfiguration.transform = createTransformConfiguration(
+				labelConfiguration.transform
+			);
+			setFiniteConfigurationValue(font, "size", numberFontSizeInput);
+			font.weight = numberFontWeightInput.value;
+			font.color = numberFontColorInput.value;
+
+			setFirstCharacterControlsEnabled(
+				firstCharacterEnabledInput.checked
+			);
+
+			if (firstCharacterEnabledInput.checked) {
+				firstCharacter = font.firstCharacter || {};
+				font.firstCharacter = firstCharacter;
+				setOptionalFiniteConfigurationValue(
+					firstCharacter,
+					"size",
+					firstCharacterSizeInput
+				);
+				setOptionalConfigurationValue(
+					firstCharacter,
+					"weight",
+					firstCharacterWeightInput
+				);
+				setOptionalConfigurationValue(
+					firstCharacter,
+					"color",
+					firstCharacterColorInput
+				);
+			} else {
+				delete font.firstCharacter;
+			}
+
+			applyNumberLabelConfiguration(selectedNumberIndex);
+			saveButton.hidden = false;
+			if (!saveButton.disabled) {
+				saveButton.textContent = "Save";
+			}
+		}
+
+		function parseTransformConfiguration(value) {
+			var transform = {
+				scaleX: 1,
+				scaleY: 1,
+				rotate: 0
+			};
+			var pattern =
+				/(scaleX|scaleY|rotate)\(\s*(-?(?:\d+(?:\.\d+)?|\.\d+))\s*(?:deg)?\s*\)/gi;
+			var match;
+			var name;
+			var number;
+
+			while ((match = pattern.exec(value || ""))) {
+				name = match[1].toLowerCase();
+				number = Number(match[2]);
+
+				if (!Number.isFinite(number)) {
+					continue;
+				}
+
+				if (name === "scalex") {
+					transform.scaleX = number;
+				} else if (name === "scaley") {
+					transform.scaleY = number;
+				} else {
+					transform.rotate = number;
+				}
+			}
+
+			return transform;
+		}
+
+		function createTransformConfiguration(currentValue) {
+			var current = parseTransformConfiguration(currentValue);
+			var scaleX = getFiniteInputValue(
+				numberScaleXInput,
+				current.scaleX
+			);
+			var scaleY = getFiniteInputValue(
+				numberScaleYInput,
+				current.scaleY
+			);
+			var rotate = getFiniteInputValue(
+				numberRotateInput,
+				current.rotate
+			);
+			var parts = [];
+
+			if (scaleX !== 1) {
+				parts.push("scaleX(" + scaleX + ")");
+			}
+			if (scaleY !== 1) {
+				parts.push("scaleY(" + scaleY + ")");
+			}
+			if (rotate !== 0) {
+				parts.push("rotate(" + rotate + "deg)");
+			}
+
+			return parts.length ? parts.join(" ") : "none";
+		}
+
+		function getFiniteInputValue(input, fallback) {
+			var value;
+
+			if (input.value === "") {
+				return fallback;
+			}
+
+			value = Number(input.value);
+			return Number.isFinite(value) ? value : fallback;
+		}
+
+		function normalizeColorOption(value) {
+			value = String(value).trim().toLowerCase();
+
+			return value === "white" ||
+				value === "#fff" ||
+				value === "#ffffff"
+				? "white"
+				: "black";
+		}
+
+		function setFiniteConfigurationValue(target, property, input) {
+			var value;
+
+			if (input.value === "") {
+				return;
+			}
+
+			value = Number(input.value);
+			if (Number.isFinite(value)) {
+				target[property] = value;
+			}
+		}
+
+		function setOptionalFiniteConfigurationValue(
+			target,
+			property,
+			input
+		) {
+			if (input.value === "") {
+				delete target[property];
+				return;
+			}
+
+			setFiniteConfigurationValue(target, property, input);
+		}
+
+		function setOptionalConfigurationValue(target, property, input) {
+			if (input.value === "") {
+				delete target[property];
+			} else {
+				target[property] = input.value;
+			}
+		}
+
+		function renderAreas(fields) {
+			areasOverlay.replaceChildren();
+			areasOverlay.setAttribute(
+				"viewBox",
+				"0 0 " + game.width + " " + game.height
+			);
+
+			fields.forEach(function (field, index) {
+				var coordinates = field.area.coordinates;
+				var points = [];
+				var coordinateIndex;
+				var polygon = document.createElementNS(
+					"http://www.w3.org/2000/svg",
+					"polygon"
+				);
+
+				for (
+					coordinateIndex = 0;
+					coordinateIndex < coordinates.length;
+					coordinateIndex += 2
+				) {
+					points.push(
+						coordinates[coordinateIndex] +
+							"," +
+							coordinates[coordinateIndex + 1]
+					);
+				}
+
+				polygon.setAttribute("points", points.join(" "));
+				polygon.setAttribute("data-field-index", index);
+				polygon.addEventListener("click", function () {
+					selectArea(polygon);
+				});
+				areasOverlay.appendChild(polygon);
+			});
+
+			updateAreaCollisions();
+		}
+
+		function selectArea(selectedPolygon) {
+			areasOverlay
+				.querySelectorAll("polygon.is-selected")
+				.forEach(function (polygon) {
+					polygon.classList.remove("is-selected");
+				});
+			selectedPolygon.classList.add("is-selected");
+			selectedFieldIndex = Number(
+				selectedPolygon.getAttribute("data-field-index")
+			);
+			activeVertex = null;
+			hideAddPointControl();
+			renderVertexHandles(selectedFieldIndex);
+		}
+
+		function renderVertexHandles(fieldIndex) {
+			var existingHandles = areasOverlay.querySelector(".vertex-handles");
+			var coordinates =
+				activeLevel.configuration.fields[fieldIndex].area.coordinates;
+			var handles = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"g"
+			);
+			var coordinateIndex;
+
+			if (existingHandles) {
+				existingHandles.remove();
+			}
+
+			activeVertex = null;
+			handles.classList.add("vertex-handles");
+
+			for (
+				coordinateIndex = 0;
+				coordinateIndex < coordinates.length;
+				coordinateIndex += 2
+			) {
+				addVertexHandle(
+					handles,
+					fieldIndex,
+					coordinateIndex,
+					coordinates[coordinateIndex],
+					coordinates[coordinateIndex + 1]
+				);
+			}
+
+			areasOverlay.appendChild(handles);
+		}
+
+		function addVertexHandle(
+			handles,
+			fieldIndex,
+			coordinateIndex,
+			x,
+			y
+		) {
+			var handle = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"circle"
+			);
+
+			handle.setAttribute("cx", x);
+			handle.setAttribute("cy", y);
+			handle.setAttribute("r", 5);
+			handle.addEventListener("pointerdown", function (event) {
+				event.preventDefault();
+				event.stopPropagation();
+				activateVertex(fieldIndex, coordinateIndex, handle);
+				handle.classList.add("is-dragging");
+				draggedVertex = {
+					fieldIndex: fieldIndex,
+					coordinateIndex: coordinateIndex,
+					handle: handle
+				};
+			});
+			handles.appendChild(handle);
+		}
+
+		function activateVertex(fieldIndex, coordinateIndex, handle) {
+			areasOverlay
+				.querySelectorAll(".vertex-handles circle.is-active")
+				.forEach(function (vertex) {
+					vertex.classList.remove("is-active");
+				});
+			handle.classList.add("is-active");
+			activeVertex = {
+				fieldIndex: fieldIndex,
+				coordinateIndex: coordinateIndex,
+				handle: handle
+			};
+			hideAddPointControl();
+		}
+
+		function moveVertex(event) {
+			var point;
+			var matrix;
+			var coordinates;
+			var x;
+			var y;
+
+			if (!draggedVertex) {
+				return;
+			}
+
+			matrix = areasOverlay.getScreenCTM();
+			if (!matrix) {
+				return;
+			}
+
+			point = areasOverlay.createSVGPoint();
+			point.x = event.clientX;
+			point.y = event.clientY;
+			point = point.matrixTransform(matrix.inverse());
+			x = Math.round(Math.max(0, Math.min(game.width, point.x)));
+			y = Math.round(Math.max(0, Math.min(game.height, point.y)));
+			coordinates =
+				activeLevel.configuration.fields[draggedVertex.fieldIndex].area
+					.coordinates;
+
+			if (
+				coordinates[draggedVertex.coordinateIndex] === x &&
+				coordinates[draggedVertex.coordinateIndex + 1] === y
+			) {
+				return;
+			}
+
+			coordinates[draggedVertex.coordinateIndex] = x;
+			coordinates[draggedVertex.coordinateIndex + 1] = y;
+			draggedVertex.handle.setAttribute("cx", x);
+			draggedVertex.handle.setAttribute("cy", y);
+			updatePolygon(draggedVertex.fieldIndex);
+			updateAreaCollisions();
+			saveButton.hidden = false;
+			event.preventDefault();
+		}
+
+		function stopDraggingVertex() {
+			if (!draggedVertex) {
+				return;
+			}
+
+			draggedVertex.handle.classList.remove("is-dragging");
+			draggedVertex = null;
+		}
+
+		function handleVertexDelete(event) {
+			if (
+				!activeVertex ||
+				(event.key !== "Delete" && event.key !== "Backspace")
+			) {
+				return;
+			}
+
+			event.preventDefault();
+			removeActiveVertex();
+		}
+
+		function removeActiveVertex() {
+			var fieldIndex = activeVertex.fieldIndex;
+			var coordinates =
+				activeLevel.configuration.fields[fieldIndex].area.coordinates;
+
+			if (coordinates.length <= 6) {
+				return;
+			}
+
+			coordinates.splice(activeVertex.coordinateIndex, 2);
+			draggedVertex = null;
+			activeVertex = null;
+			hideAddPointControl();
+			updatePolygon(fieldIndex);
+			updateAreaCollisions();
+			renderVertexHandles(fieldIndex);
+			saveButton.hidden = false;
+		}
+
+		function updatePolygon(fieldIndex) {
+			var coordinates =
+				activeLevel.configuration.fields[fieldIndex].area.coordinates;
+			var polygon = areasOverlay.querySelector(
+				'polygon[data-field-index="' + fieldIndex + '"]'
+			);
+			var points = [];
+			var coordinateIndex;
+
+			for (
+				coordinateIndex = 0;
+				coordinateIndex < coordinates.length;
+				coordinateIndex += 2
+			) {
+				points.push(
+					coordinates[coordinateIndex] +
+						"," +
+						coordinates[coordinateIndex + 1]
+				);
+			}
+
+			polygon.setAttribute("points", points.join(" "));
+		}
+
+		function updateAddPointControl(event) {
+			var coordinates;
+			var matrix;
+			var screenScale;
+			var point;
+			var bestCandidate = null;
+			var coordinateIndex;
+			var nextIndex;
+			var candidate;
+			var distanceToNearestVertex;
+
+			if (
+				selectedFieldIndex === null ||
+				draggedVertex ||
+				areasButton.getAttribute("aria-pressed") !== "true"
+			) {
+				hideAddPointControl();
+				return;
+			}
+
+			matrix = areasOverlay.getScreenCTM();
+			if (!matrix) {
+				hideAddPointControl();
+				return;
+			}
+
+			screenScale = Math.sqrt(
+				matrix.a * matrix.a + matrix.b * matrix.b
+			);
+			point = clientPointToSvg(event.clientX, event.clientY, matrix);
+			coordinates =
+				activeLevel.configuration.fields[selectedFieldIndex].area
+					.coordinates;
+
+			for (
+				coordinateIndex = 0;
+				coordinateIndex < coordinates.length;
+				coordinateIndex += 2
+			) {
+				nextIndex = (coordinateIndex + 2) % coordinates.length;
+				candidate = closestPointOnSegment(
+					point.x,
+					point.y,
+					coordinates[coordinateIndex],
+					coordinates[coordinateIndex + 1],
+					coordinates[nextIndex],
+					coordinates[nextIndex + 1]
+				);
+				distanceToNearestVertex =
+					Math.min(
+						Math.hypot(
+							candidate.x - coordinates[coordinateIndex],
+							candidate.y - coordinates[coordinateIndex + 1]
+						),
+						Math.hypot(
+							candidate.x - coordinates[nextIndex],
+							candidate.y - coordinates[nextIndex + 1]
+						)
+					) * screenScale;
+
+				if (
+					candidate.distance * screenScale <= 12 &&
+					distanceToNearestVertex > 20 &&
+					(!bestCandidate ||
+						candidate.distance < bestCandidate.distance)
+				) {
+					bestCandidate = {
+						x: Math.round(candidate.x),
+						y: Math.round(candidate.y),
+						distance: candidate.distance,
+						insertIndex:
+							nextIndex === 0
+								? coordinates.length
+								: nextIndex
+					};
+				}
+			}
+
+			if (!bestCandidate) {
+				hideAddPointControl();
+				return;
+			}
+
+			showAddPointControl(bestCandidate);
+		}
+
+		function clientPointToSvg(clientX, clientY, matrix) {
+			var point = areasOverlay.createSVGPoint();
+			point.x = clientX;
+			point.y = clientY;
+			return point.matrixTransform(matrix.inverse());
+		}
+
+		function closestPointOnSegment(px, py, x1, y1, x2, y2) {
+			var dx = x2 - x1;
+			var dy = y2 - y1;
+			var lengthSquared = dx * dx + dy * dy;
+			var position =
+				lengthSquared === 0
+					? 0
+					: ((px - x1) * dx + (py - y1) * dy) /
+						lengthSquared;
+			var x;
+			var y;
+
+			position = Math.max(0, Math.min(1, position));
+			x = x1 + position * dx;
+			y = y1 + position * dy;
+
+			return {
+				x: x,
+				y: y,
+				distance: Math.hypot(px - x, py - y)
+			};
+		}
+
+		function showAddPointControl(candidate) {
+			var control = areasOverlay.querySelector(
+				".edge-add-control"
+			);
+			var circle;
+			var plus;
+
+			addPointCandidate = candidate;
+
+			if (!control) {
+				control = document.createElementNS(
+					"http://www.w3.org/2000/svg",
+					"g"
+				);
+				circle = document.createElementNS(
+					"http://www.w3.org/2000/svg",
+					"circle"
+				);
+				plus = document.createElementNS(
+					"http://www.w3.org/2000/svg",
+					"text"
+				);
+				control.classList.add("edge-add-control");
+				circle.setAttribute("r", 10);
+				plus.textContent = "+";
+				control.append(circle, plus);
+				control.addEventListener("pointerdown", function (event) {
+					event.preventDefault();
+					event.stopPropagation();
+				});
+				control.addEventListener("click", function (event) {
+					event.preventDefault();
+					event.stopPropagation();
+					addPointAtCandidate();
+				});
+				areasOverlay.appendChild(control);
+			}
+
+			control.setAttribute(
+				"transform",
+				"translate(" + candidate.x + " " + candidate.y + ")"
+			);
+		}
+
+		function hideAddPointControl() {
+			var control = areasOverlay.querySelector(
+				".edge-add-control"
+			);
+
+			if (control) {
+				control.remove();
+			}
+			addPointCandidate = null;
+		}
+
+		function addPointAtCandidate() {
+			var coordinates;
+
+			if (!addPointCandidate || selectedFieldIndex === null) {
+				return;
+			}
+
+			coordinates =
+				activeLevel.configuration.fields[selectedFieldIndex].area
+					.coordinates;
+			coordinates.splice(
+				addPointCandidate.insertIndex,
+				0,
+				addPointCandidate.x,
+				addPointCandidate.y
+			);
+			hideAddPointControl();
+			updatePolygon(selectedFieldIndex);
+			updateAreaCollisions();
+			renderVertexHandles(selectedFieldIndex);
+			saveButton.hidden = false;
+		}
+
+		function updateAreaCollisions() {
+			var fields;
+			var polygons;
+			var interiorPoints;
+			var firstIndex;
+			var secondIndex;
+
+			if (!activeLevel) {
+				return;
+			}
+
+			fields = activeLevel.configuration.fields;
+			polygons = areasOverlay.querySelectorAll("polygon");
+			interiorPoints = fields.map(function (field) {
+				return findInteriorPoint(field.area.coordinates);
+			});
+
+			polygons.forEach(function (polygon) {
+				polygon.classList.remove("has-collision");
+			});
+
+			for (
+				firstIndex = 0;
+				firstIndex < fields.length;
+				firstIndex += 1
+			) {
+				for (
+					secondIndex = firstIndex + 1;
+					secondIndex < fields.length;
+					secondIndex += 1
+				) {
+					if (
+						polygonsOverlap(
+							fields[firstIndex].area.coordinates,
+							fields[secondIndex].area.coordinates,
+							interiorPoints[firstIndex],
+							interiorPoints[secondIndex]
+						)
+					) {
+						polygons[firstIndex].classList.add("has-collision");
+						polygons[secondIndex].classList.add("has-collision");
+					}
+				}
+			}
+		}
+
+		function polygonsOverlap(
+			first,
+			second,
+			firstInterior,
+			secondInterior
+		) {
+			var firstIndex;
+			var secondIndex;
+			var firstNext;
+			var secondNext;
+
+			for (
+				firstIndex = 0;
+				firstIndex < first.length;
+				firstIndex += 2
+			) {
+				if (
+					pointLocation(
+						first[firstIndex],
+						first[firstIndex + 1],
+						second
+					) === 1
+				) {
+					return true;
+				}
+			}
+
+			for (
+				secondIndex = 0;
+				secondIndex < second.length;
+				secondIndex += 2
+			) {
+				if (
+					pointLocation(
+						second[secondIndex],
+						second[secondIndex + 1],
+						first
+					) === 1
+				) {
+					return true;
+				}
+			}
+
+			for (
+				firstIndex = 0;
+				firstIndex < first.length;
+				firstIndex += 2
+			) {
+				firstNext = (firstIndex + 2) % first.length;
+
+				for (
+					secondIndex = 0;
+					secondIndex < second.length;
+					secondIndex += 2
+				) {
+					secondNext = (secondIndex + 2) % second.length;
+
+					if (
+						segmentsProperlyIntersect(
+							first[firstIndex],
+							first[firstIndex + 1],
+							first[firstNext],
+							first[firstNext + 1],
+							second[secondIndex],
+							second[secondIndex + 1],
+							second[secondNext],
+							second[secondNext + 1]
+						)
+					) {
+						return true;
+					}
+				}
+			}
+
+			return (
+				(firstInterior &&
+					pointLocation(
+						firstInterior.x,
+						firstInterior.y,
+						second
+					) === 1) ||
+				(secondInterior &&
+					pointLocation(
+						secondInterior.x,
+						secondInterior.y,
+						first
+					) === 1)
+			);
+		}
+
+		function pointLocation(x, y, polygon) {
+			var inside = false;
+			var index;
+			var previousIndex;
+			var x1;
+			var y1;
+			var x2;
+			var y2;
+
+			for (
+				index = 0, previousIndex = polygon.length - 2;
+				index < polygon.length;
+				previousIndex = index, index += 2
+			) {
+				x1 = polygon[index];
+				y1 = polygon[index + 1];
+				x2 = polygon[previousIndex];
+				y2 = polygon[previousIndex + 1];
+
+				if (pointOnSegment(x, y, x1, y1, x2, y2)) {
+					return 0;
+				}
+
+				if (
+					(y1 > y) !== (y2 > y) &&
+					x < ((x2 - x1) * (y - y1)) / (y2 - y1) + x1
+				) {
+					inside = !inside;
+				}
+			}
+
+			return inside ? 1 : -1;
+		}
+
+		function pointOnSegment(x, y, x1, y1, x2, y2) {
+			var cross =
+				(x - x1) * (y2 - y1) - (y - y1) * (x2 - x1);
+			var epsilon = 0.000001;
+
+			return (
+				Math.abs(cross) <= epsilon &&
+				x >= Math.min(x1, x2) - epsilon &&
+				x <= Math.max(x1, x2) + epsilon &&
+				y >= Math.min(y1, y2) - epsilon &&
+				y <= Math.max(y1, y2) + epsilon
+			);
+		}
+
+		function segmentsProperlyIntersect(
+			ax,
+			ay,
+			bx,
+			by,
+			cx,
+			cy,
+			dx,
+			dy
+		) {
+			var first =
+				(bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
+			var second =
+				(bx - ax) * (dy - ay) - (by - ay) * (dx - ax);
+			var third =
+				(dx - cx) * (ay - cy) - (dy - cy) * (ax - cx);
+			var fourth =
+				(dx - cx) * (by - cy) - (dy - cy) * (bx - cx);
+			var epsilon = 0.000001;
+
+			return (
+				((first > epsilon && second < -epsilon) ||
+					(first < -epsilon && second > epsilon)) &&
+				((third > epsilon && fourth < -epsilon) ||
+					(third < -epsilon && fourth > epsilon))
+			);
+		}
+
+		function findInteriorPoint(polygon) {
+			var areaTwice = 0;
+			var centroidX = 0;
+			var centroidY = 0;
+			var index;
+			var next;
+			var cross;
+			var candidate;
+			var xValues = [];
+			var yValues = [];
+			var column;
+			var row;
+
+			for (index = 0; index < polygon.length; index += 2) {
+				next = (index + 2) % polygon.length;
+				cross =
+					polygon[index] * polygon[next + 1] -
+					polygon[next] * polygon[index + 1];
+				areaTwice += cross;
+				centroidX += (polygon[index] + polygon[next]) * cross;
+				centroidY +=
+					(polygon[index + 1] + polygon[next + 1]) * cross;
+				xValues.push(polygon[index]);
+				yValues.push(polygon[index + 1]);
+			}
+
+			if (Math.abs(areaTwice) > 0.000001) {
+				candidate = {
+					x: centroidX / (3 * areaTwice),
+					y: centroidY / (3 * areaTwice)
+				};
+
+				if (
+					pointLocation(candidate.x, candidate.y, polygon) === 1
+				) {
+					return candidate;
+				}
+			}
+
+			for (row = 1; row < 16; row += 1) {
+				for (column = 1; column < 16; column += 1) {
+					candidate = {
+						x:
+							Math.min.apply(Math, xValues) +
+							((Math.max.apply(Math, xValues) -
+								Math.min.apply(Math, xValues)) *
+								column) /
+								16,
+						y:
+							Math.min.apply(Math, yValues) +
+							((Math.max.apply(Math, yValues) -
+								Math.min.apply(Math, yValues)) *
+								row) /
+								16
+					};
+
+					if (
+						pointLocation(candidate.x, candidate.y, polygon) === 1
+					) {
+						return candidate;
+					}
+				}
+			}
+
+			return null;
+		}
+
+		function saveLevel() {
+			if (!activeLevel) {
+				return;
+			}
+
+			saveButton.disabled = true;
+			saveButton.textContent = "Saving…";
+
+			fetch("/api/levels/" + encodeURIComponent(activeLevel.file), {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(activeLevel.configuration)
+			})
+				.then(function (response) {
+					return response.json().then(function (payload) {
+						if (!response.ok) {
+							throw new Error(
+								payload.error || "Could not save level."
+							);
+						}
+						return payload;
+					});
+				})
+				.then(function () {
+					saveButton.hidden = true;
+					saveButton.textContent = "Save";
+				})
+				.catch(function (error) {
+					console.error(error);
+					saveButton.textContent = "Retry save";
+				})
+				.finally(function () {
+					saveButton.disabled = false;
+				});
+		}
+
+		function toggleAreas() {
+			setAreasVisible(
+				areasButton.getAttribute("aria-pressed") !== "true"
+			);
+		}
+
+		function setAreasVisible(isVisible) {
+			if (isVisible) {
+				setNumbersVisible(false);
+			}
+
+			areasButton.setAttribute("aria-pressed", String(isVisible));
+			areasOverlay.classList.toggle("is-visible", isVisible);
+
+			if (!isVisible) {
+				areasOverlay
+					.querySelectorAll("polygon.is-selected")
+					.forEach(function (polygon) {
+						polygon.classList.remove("is-selected");
+					});
+				areasOverlay
+					.querySelectorAll(".vertex-handles")
+					.forEach(function (handles) {
+						handles.remove();
+					});
+				selectedFieldIndex = null;
+				activeVertex = null;
+				hideAddPointControl();
+				stopDraggingVertex();
+			}
+		}
+
+		function createStatus(message, isError) {
+			var status = document.createElement("div");
+			status.className = "status" + (isError ? " is-error" : "");
+			status.textContent = message;
+			return status;
+		}
+
+		function showError(error) {
+			list.replaceChildren(
+				createStatus(
+					error.message +
+						" Open this page through a local web server.",
+					true
+				)
+			);
+			count.textContent = "Unavailable";
+		}
+	})();
+	</script>
+</body>
+</html>
