@@ -13,6 +13,7 @@
 	<script src="js/mapping.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&amp;display=swap" rel="stylesheet" type="text/css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css">
 	<link href="css/numbers_sets.css" rel="stylesheet" type="text/css">
 	<style>
 	html {
@@ -257,16 +258,15 @@
 		margin-left: auto;
 	}
 
-	#fullscreen_button {
+	.corner-button {
 		display: grid;
 		place-items: center;
 		position: fixed;
 		top: max(10px, env(safe-area-inset-top));
-		right: max(10px, env(safe-area-inset-right));
 		z-index: 10;
 		width: 44px;
 		height: 44px;
-		padding: 8px;
+		padding: 0;
 		border: 2px solid rgba(255, 255, 255, 0.9);
 		border-radius: 10px;
 		background: rgba(3, 47, 80, 0.72);
@@ -276,23 +276,134 @@
 		-webkit-tap-highlight-color: transparent;
 	}
 
-	#fullscreen_button:active {
+	.corner-button:active {
 		transform: scale(0.94);
 	}
 
-	#fullscreen_button svg {
+	.corner-button i {
 		display: block;
-		width: 100%;
-		height: 100%;
-		fill: none;
-		stroke: currentColor;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-		stroke-width: 2.2;
+		font-size: 23px;
+		line-height: 1;
 	}
 
-	.fullscreen-collapse-icon {
+	#fullscreen_button {
+		right: max(10px, env(safe-area-inset-right));
+	}
+
+	#settings_button {
 		display: none;
+		right: max(64px, calc(env(safe-area-inset-right) + 54px));
+	}
+
+	body.is-playing #settings_button {
+		display: grid;
+	}
+
+	.corner-button .fullscreen-collapse-icon {
+		display: none;
+	}
+
+	#settings_dialog {
+		display: grid;
+		place-items: center;
+		position: fixed;
+		inset: 0;
+		z-index: 30;
+		box-sizing: border-box;
+		padding: 20px;
+		background: rgba(0, 20, 36, 0.72);
+	}
+
+	#settings_dialog[hidden] {
+		display: none;
+	}
+
+	.settings-card {
+		box-sizing: border-box;
+		width: min(380px, 100%);
+		padding: 24px;
+		border: 2px solid rgba(255, 255, 255, 0.9);
+		border-radius: 18px;
+		background: #064571;
+		box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+		text-align: center;
+	}
+
+	.settings-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+
+	.settings-header h2 {
+		margin: 0;
+		font-size: 30px;
+	}
+
+	.settings-close,
+	#volume_toggle {
+		display: grid;
+		place-items: center;
+		flex: 0 0 auto;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 0;
+		border-radius: 10px;
+		background: rgba(3, 47, 80, 0.8);
+		color: #fff;
+		font-size: 24px;
+		cursor: pointer;
+	}
+
+	.settings-actions {
+		display: grid;
+		gap: 12px;
+		margin-bottom: 24px;
+	}
+
+	.settings-action {
+		min-height: 52px;
+		padding: 8px 18px;
+		border: 0;
+		border-radius: 12px;
+		background: #3498db;
+		color: #fff;
+		box-shadow: 0 5px 0 #2980b9;
+		font: inherit;
+		font-size: 22px;
+		font-weight: 800;
+		cursor: pointer;
+	}
+
+	.settings-action:active {
+		box-shadow: 0 1px 0 #2980b9;
+		transform: translateY(4px);
+	}
+
+	.volume-heading {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 8px;
+		font-size: 18px;
+	}
+
+	.volume-controls {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	#volume_slider {
+		flex: 1 1 auto;
+		min-width: 0;
+		accent-color: #f7d570;
+		cursor: pointer;
+	}
+
+	#volume_toggle {
+		border: 2px solid rgba(255, 255, 255, 0.9);
 	}
 
 	#pace_timeline {
@@ -307,7 +418,7 @@
 		pointer-events: none;
 	}
 
-	body.is-playing #pace_timeline {
+	body.is-timing #pace_timeline {
 		display: block;
 	}
 
@@ -413,11 +524,14 @@
 			display: none;
 		}
 
-		body.is-playing #search {
+		body.is-playing #game_status {
 			position: fixed;
 			top: max(8px, env(safe-area-inset-top));
 			left: max(10px, env(safe-area-inset-left));
-			z-index: 9;
+			z-index: 11;
+		}
+
+		body.is-playing #search {
 			margin: 0;
 			font-size: 18px;
 			line-height: 1.1;
@@ -537,11 +651,14 @@
 		display: none;
 	}
 
-	body.is-playing.is-game-fullscreen #search {
+	body.is-playing.is-game-fullscreen #game_status {
 		position: fixed;
 		top: max(8px, env(safe-area-inset-top));
 		left: max(10px, env(safe-area-inset-left));
-		z-index: 9;
+		z-index: 11;
+	}
+
+	body.is-playing.is-game-fullscreen #search {
 		margin: 0;
 		font-size: clamp(16px, 3vmin, 28px);
 		line-height: 1.1;
@@ -602,14 +719,18 @@
 			<p id="config_error"></p>
 		</section>
 
-		<button id="fullscreen_button" type="button" aria-label="Enter fullscreen" title="Enter fullscreen">
-			<svg viewBox="0 0 24 24" aria-hidden="true">
-				<path class="fullscreen-expand-icon" d="M8 3H3v5 M16 3h5v5 M8 21H3v-5 M16 21h5v-5"></path>
-				<path class="fullscreen-collapse-icon" d="M8 8H3V3 M16 8h5V3 M8 16H3v5 M16 16h5v5"></path>
-			</svg>
+		<button class="corner-button" id="fullscreen_button" type="button" aria-label="Enter fullscreen" title="Enter fullscreen">
+			<i class="bi bi-arrows-fullscreen fullscreen-expand-icon" aria-hidden="true"></i>
+			<i class="bi bi-fullscreen-exit fullscreen-collapse-icon" aria-hidden="true"></i>
 		</button>
 
-		<p id="search"><span class="search-label">Find number:</span> <span id="next"></span></p>
+		<button class="corner-button" id="settings_button" type="button" aria-label="Open settings" title="Settings" aria-haspopup="dialog" aria-expanded="false">
+			<i class="bi bi-gear-fill" aria-hidden="true"></i>
+		</button>
+
+		<div id="game_status">
+			<p id="search"><span class="search-label">Find number:</span> <span id="next"></span></p>
+		</div>
 
 		<div id="pace_timeline" role="progressbar" aria-label="Time pace" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
 			<div class="pace-track">
@@ -630,6 +751,33 @@
 
 		<div id="result"></div>
 	</main>
+
+	<div id="settings_dialog" role="dialog" aria-modal="true" aria-labelledby="settings_title" hidden>
+		<div class="settings-card">
+			<div class="settings-header">
+				<h2 id="settings_title">Settings</h2>
+				<button class="settings-close" id="settings_close" type="button" aria-label="Close settings" title="Close settings">
+					<i class="bi bi-x-lg" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<div class="settings-actions">
+				<button class="settings-action" id="main_menu_button" type="button">Main menu</button>
+				<button class="settings-action" id="restart_button" type="button">Restart</button>
+			</div>
+
+			<div class="volume-heading">
+				<label for="volume_slider">Sound</label>
+				<output id="volume_value" for="volume_slider">100%</output>
+			</div>
+			<div class="volume-controls">
+				<input id="volume_slider" type="range" min="0" max="100" step="1" value="100" aria-label="Sound volume">
+				<button id="volume_toggle" type="button" aria-label="Mute sound" title="Mute sound" aria-pressed="false">
+					<i id="volume_icon" class="bi bi-volume-up-fill" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</div>
 
 	<map id="numbers" name="numbers"></map>
 

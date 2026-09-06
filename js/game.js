@@ -3,14 +3,18 @@
 
 	var game = window.numberGameConfiguration;
 	var bestTimesStorageKey = "numberGame.bestTimes.v1";
+	var soundSettingsStorageKey = "numberGame.soundSettings.v1";
 	var defaultBestTime = 10 * 60;
 	var bestTimes = loadBestTimes();
 	var level;
 	var nextNumber = 1;
+	var wrongClicksSinceCorrect = 0;
 	var startedAt;
 	var messageTimer;
 	var resizeFrame;
 	var paceFrame;
+	var lastAudibleVolume = 1;
+	var settingsPreviouslyFocused;
 	var clickSound = new Audio("sounds/click.mp3");
 
 	clickSound.preload = "auto";
@@ -29,8 +33,15 @@
 	var $paceTimeline;
 	var $result;
 	var $search;
+	var $settingsButton;
+	var $settingsClose;
+	var $settingsDialog;
 	var $start;
 	var $startButton;
+	var $volumeIcon;
+	var $volumeSlider;
+	var $volumeToggle;
+	var $volumeValue;
 
 	$(function () {
 		$board = $("#img_b");
@@ -47,11 +58,31 @@
 		$paceTimeline = $("#pace_timeline");
 		$result = $("#result");
 		$search = $("#search");
+		$settingsButton = $("#settings_button");
+		$settingsClose = $("#settings_close");
+		$settingsDialog = $("#settings_dialog");
 		$start = $("#start");
 		$startButton = $("#button");
+		$volumeIcon = $("#volume_icon");
+		$volumeSlider = $("#volume_slider");
+		$volumeToggle = $("#volume_toggle");
+		$volumeValue = $("#volume_value");
 
 		$startButton.on("click", start);
 		$fullscreenButton.on("click", toggleGameFullscreen);
+		$settingsButton.on("click", openSettingsDialog);
+		$settingsClose.on("click", function () {
+			closeSettingsDialog(true);
+		});
+		$settingsDialog.on("click", function (event) {
+			if (event.target === this) {
+				closeSettingsDialog(true);
+			}
+		});
+		$("#main_menu_button").on("click", returnToMainPage);
+		$("#restart_button").on("click", restartGame);
+		$volumeSlider.on("input change", setVolumeFromSlider);
+		$volumeToggle.on("click", toggleSound);
 		$levelSelect.on("change", function () {
 			loadLevel($levelSelect.val());
 		});
@@ -68,11 +99,18 @@
 			);
 		}
 		$(document).on("keydown", function (event) {
+			if (event.which === 27 && !$settingsDialog.prop("hidden")) {
+				closeSettingsDialog(true);
+				return;
+			}
+
 			if (event.which === 17) {
 				alert("Feeling clever?");
 			}
 		});
 
+		loadSoundSettings();
+		syncVolumeControls();
 		loadLevelManifest();
 	});
 
@@ -158,6 +196,7 @@
 		removeMapHighlight();
 		level = null;
 		nextNumber = 1;
+		wrongClicksSinceCorrect = 0;
 		startedAt = null;
 		hideMessage();
 		$boardStage.hide();
@@ -165,7 +204,7 @@
 		$result.empty().hide();
 		$start.show();
 		$levelSelector.show();
-		$("body").removeClass("is-playing");
+		$("body").removeClass("is-playing is-timing");
 		$board.children(".number-field").remove();
 		$map.empty();
 		$("#config_error").empty().hide();
@@ -306,17 +345,21 @@
 			return;
 		}
 
-		startedAt = new Date();
+		window.clearTimeout(messageTimer);
+		stopPaceTimeline();
+		hideMessage();
+		closeSettingsDialog(false);
+		startedAt = null;
 		nextNumber = 1;
+		wrongClicksSinceCorrect = 0;
 
 		$start.hide();
 		$levelSelector.hide();
 		$result.hide();
-		$("body").addClass("is-playing");
+		$("body").removeClass("is-timing").addClass("is-playing");
 		$search.show();
 		$boardStage.show();
 		$next.text(nextNumber);
-		startPaceTimeline();
 		updateBoardScale();
 
 		$image.maphilight({ stroke: false, fillOpacity: 0 });
@@ -327,6 +370,153 @@
 			$("#f_" + index).data("number", number);
 		});
 		scheduleBoardScaleUpdate();
+	}
+
+	function returnToMainPage() {
+		window.clearTimeout(messageTimer);
+		stopPaceTimeline();
+		closeSettingsDialog(false);
+		startedAt = null;
+		nextNumber = 1;
+		wrongClicksSinceCorrect = 0;
+		hideMessage();
+		$boardStage.hide();
+		$search.hide();
+		$result.empty().hide();
+		$levelSelector.show();
+		$start.show();
+		$("body").removeClass("is-playing is-timing");
+	}
+
+	function startTiming() {
+		startedAt = new Date();
+		$("body").addClass("is-timing");
+		startPaceTimeline();
+	}
+
+	function openSettingsDialog() {
+		if (!$("body").hasClass("is-playing")) {
+			return;
+		}
+
+		settingsPreviouslyFocused = document.activeElement;
+		$settingsDialog.prop("hidden", false);
+		$settingsButton.attr("aria-expanded", "true");
+		$settingsClose.trigger("focus");
+	}
+
+	function closeSettingsDialog(restoreFocus) {
+		if (!$settingsDialog || $settingsDialog.prop("hidden")) {
+			return;
+		}
+
+		$settingsDialog.prop("hidden", true);
+		$settingsButton.attr("aria-expanded", "false");
+
+		if (
+			restoreFocus &&
+			settingsPreviouslyFocused &&
+			document.body.contains(settingsPreviouslyFocused)
+		) {
+			settingsPreviouslyFocused.focus();
+		}
+	}
+
+	function restartGame() {
+		closeSettingsDialog(false);
+		start();
+	}
+
+	function setVolumeFromSlider() {
+		var volume = Number($volumeSlider.val()) / 100;
+
+		clickSound.volume = volume;
+		clickSound.muted = volume === 0;
+
+		if (volume > 0) {
+			lastAudibleVolume = volume;
+		}
+
+		syncVolumeControls();
+		saveSoundSettings();
+	}
+
+	function toggleSound() {
+		if (!clickSound.muted && clickSound.volume > 0) {
+			lastAudibleVolume = clickSound.volume;
+			clickSound.muted = true;
+		} else {
+			if (clickSound.volume === 0) {
+				clickSound.volume = lastAudibleVolume;
+				$volumeSlider.val(Math.round(lastAudibleVolume * 100));
+			}
+
+			clickSound.muted = false;
+		}
+
+		syncVolumeControls();
+		saveSoundSettings();
+	}
+
+	function loadSoundSettings() {
+		try {
+			var settings = JSON.parse(
+				window.localStorage.getItem(soundSettingsStorageKey) || "null"
+			);
+			var volume = settings && Number(settings.volume);
+			var previousVolume = settings && Number(settings.lastAudibleVolume);
+
+			if (Number.isFinite(volume) && volume >= 0 && volume <= 100) {
+				clickSound.volume = volume / 100;
+			}
+
+			if (settings && typeof settings.muted === "boolean") {
+				clickSound.muted = settings.muted;
+			}
+
+			if (
+				Number.isFinite(previousVolume) &&
+				previousVolume > 0 &&
+				previousVolume <= 100
+			) {
+				lastAudibleVolume = previousVolume / 100;
+			} else if (clickSound.volume > 0) {
+				lastAudibleVolume = clickSound.volume;
+			}
+		} catch (error) {
+			// Keep the default sound settings when storage is unavailable.
+		}
+	}
+
+	function saveSoundSettings() {
+		try {
+			window.localStorage.setItem(
+				soundSettingsStorageKey,
+				JSON.stringify({
+					volume: Math.round(clickSound.volume * 100),
+					muted: clickSound.muted,
+					lastAudibleVolume: Math.round(lastAudibleVolume * 100)
+				})
+			);
+		} catch (error) {
+			// Keep the settings in memory when storage is unavailable.
+		}
+	}
+
+	function syncVolumeControls() {
+		var volumePercent = Math.round(clickSound.volume * 100);
+		var isAudible = !clickSound.muted && volumePercent > 0;
+		var actionLabel = isAudible ? "Mute sound" : "Unmute sound";
+
+		$volumeSlider.val(volumePercent);
+		$volumeValue.text(volumePercent + "%");
+		$volumeIcon
+			.toggleClass("bi-volume-up-fill", isAudible)
+			.toggleClass("bi-volume-mute-fill", !isAudible);
+		$volumeToggle
+			.attr("aria-label", actionLabel)
+			.attr("title", actionLabel)
+			.attr("aria-pressed", String(!isAudible));
 	}
 
 	function scheduleBoardScaleUpdate() {
@@ -667,11 +857,24 @@
 
 	function checkNumber(number) {
 		if (nextNumber !== number) {
+			wrongClicksSinceCorrect += 1;
+
+			if (wrongClicksSinceCorrect === 1) {
+				return;
+			}
+
 			showMessage("Wrong number!", 1000);
 			return;
 		}
 
+		wrongClicksSinceCorrect = 0;
+		window.clearTimeout(messageTimer);
+		hideMessage();
 		playClickSound();
+
+		if (nextNumber === 1) {
+			startTiming();
+		}
 
 		if (nextNumber === level.numberFieldCount) {
 			end();
@@ -688,11 +891,12 @@
 
 		window.clearTimeout(messageTimer);
 		stopPaceTimeline();
+		closeSettingsDialog(false);
 		hideMessage();
 		$boardStage.hide();
 		$search.hide();
 		$levelSelector.show();
-		$("body").removeClass("is-playing");
+		$("body").removeClass("is-playing is-timing");
 		$result
 			.html(
 				"You completed the game in " +
